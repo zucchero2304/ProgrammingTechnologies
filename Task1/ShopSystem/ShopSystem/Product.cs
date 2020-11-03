@@ -8,11 +8,11 @@ namespace ShopSystem
         private double price;
         private int availableQuantity;
 
-        public Product(string name, double price, int avQt)
+        public Product(string name, double price, int availableQuantity)
         {
             this.name = name;
             this.price = price;
-            availableQuantity = avQt;
+            this.availableQuantity = availableQuantity;
         }
     }
 }
