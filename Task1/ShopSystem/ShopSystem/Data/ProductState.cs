@@ -1,0 +1,6 @@
+﻿namespace ShopSystem
+{
+    interface ProductState
+    {
+    }
+}

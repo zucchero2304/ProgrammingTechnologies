@@ -1,0 +1,4 @@
+﻿Things To Do: 
+
+Generate a class that will fill Data Context with some content. 
+Instance of this class will be passed to DataContext constructor. 

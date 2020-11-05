@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ShopSystem
 {
-    class Inventory
+    class Product
     {
+        private double price;
     }
 }

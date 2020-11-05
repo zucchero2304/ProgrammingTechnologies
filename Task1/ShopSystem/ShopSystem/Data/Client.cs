@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ShopSystem
 {
-    class Administrator
+    public class Client
     {
-
+        private String id;
     }
 }
