@@ -30,10 +30,10 @@ namespace ShopSystem.Logic
             return repository.GetProductById(id);
         }
 
-        public void AddProductToSystem(double price)
+        public void AddProductToSystem(double price, Categories category)
         {
-            int dummyId = 0;
-            repository.AddProduct(new Product(dummyId, price));
+            int id = GenerateId((List<int>)repository.GetAllProductIds());
+            repository.AddProduct(new Product(id, price, category));
         }
 
         public void DeleteProductFromSystem(int id)
@@ -91,7 +91,7 @@ namespace ShopSystem.Logic
 
         // --------------- Actions -----------------  
 
-        public void PurchaiseProduct(int productId, int clientId)
+        public void PurchaseProduct(int productId, int clientId)
         {
             // both client and product must be in the system
             
@@ -100,7 +100,7 @@ namespace ShopSystem.Logic
             State state = new State(GetAllProducts());
             int dummyId = 2;
 
-            repository.AddEvent(new EventPurchaise(state, clientId, dummyId));
+            repository.AddEvent(new EventPurchase(state, clientId, dummyId));
             repository.AddState(state);
         }
 
