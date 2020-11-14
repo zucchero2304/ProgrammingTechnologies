@@ -7,6 +7,7 @@ namespace ShopSystem.Data
 	public class State
 	{
 		private IEnumerable<Product> products;
+		private int id;
 
 		public State(IEnumerable<Product> _products)
 		{
@@ -14,6 +15,7 @@ namespace ShopSystem.Data
 		}
 
 		public IEnumerable<Product> Products => products;
+		public int Id => id;
     }
 }
 
