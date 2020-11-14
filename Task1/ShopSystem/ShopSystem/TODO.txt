@@ -1,4 +1,5 @@
-﻿Things To Do: 
+﻿TO DO:
 
-Generate a class that will fill Data Context with some content. 
-Instance of this class will be passed to DataContext constructor. 
+1. add enum as a category to the product 
+2. add id generation 
+think about how to handle cases in which obj with a given id doesn't exist 

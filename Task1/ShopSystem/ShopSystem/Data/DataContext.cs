@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopSystem
+namespace ShopSystem.Data
 {
     // Data Context is generally a shop abstraction
 
     class DataContext
     {
-        Dictionary<int, Product> products;
-        List<Event> events; 
-        List<State> states;
-        List<Client> clients;
+        public Dictionary<int, Product> products;
+        public List<IEvent> events; 
+        public List<State> states;
+        public List<Client> clients;
     }
 }

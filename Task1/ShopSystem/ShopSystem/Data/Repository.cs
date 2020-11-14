@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopSystem
+namespace ShopSystem.Data
 {
     class Repository : IRepository
     {
@@ -13,56 +13,154 @@ namespace ShopSystem
             this.dataContext = dataContext;
         }
 
-        // these methods should now manupulate on data context fields 
+
+
+        // --------------- Client -----------------  
 
         public void AddClient(Client client)
         {
-            throw new NotImplementedException();
+            dataContext.clients.Add(client);
         }
 
-        public void AddProduct(Product product)
+        public void DeleteClient(Client client)
         {
-            throw new NotImplementedException();
+            if (ContainsClientId(client.Id))
+            {
+                dataContext.clients.Remove(client);
+            }
         }
 
-        public void DeleteClient(string id)
+        public Client GetClientById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteProduct(int id)
-        {
-            throw new NotImplementedException();
+            if (ContainsClientId(id))
+            {
+                return dataContext.clients.Find(client => client.Id == id);
+            }
+            return default(Client);
         }
 
         public List<Client> GetAllClients()
         {
-            throw new NotImplementedException();
+            return dataContext.clients;
         }
 
-        public List<Event> GetAllEvents()
+        public List<int> GetAllClientsIds() 
         {
-            throw new NotImplementedException();
+            List<int> ids = new List<int>();
+
+            foreach(Client client in dataContext.clients)
+            {
+                ids.Add(client.Id);
+            }
+            return ids;
         }
 
-        public List<Product> GetAllProducts()
+         bool ContainsClientId(int id)
         {
-            throw new NotImplementedException();
+            return dataContext.clients.Exists(c => c.Id == id);
         }
 
-        public Client GetClientById(string id)
+
+
+        // --------------- Product -----------------  
+
+
+        public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            dataContext.products.Add(product.Id, product);
         }
 
-        public Event GetEventById(int id)
+        public void DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            if (ContainsProductKey(id))
+            {
+                dataContext.products.Remove(id);
+            }
         }
+
 
         public Product GetProductById(int id)
         {
-            throw new NotImplementedException();
+            if (ContainsProductKey(id))
+            {
+                return dataContext.products[id];
+            }
+            return default(Product);
+        }
+
+        public IEnumerable<Product> GetAllProducts()
+        {
+            return dataContext.products.Values;
+        }
+
+        public IEnumerable<int> GetAllProductIds()
+        {
+            return dataContext.products.Keys;
+        }
+
+        public bool ContainsProductKey(int id)
+        {
+            return dataContext.products.ContainsKey(id);
+        }
+
+
+
+
+        // --------------- Event ---------------- 
+
+        public void AddEvent(IEvent IEvent)
+        {
+            dataContext.events.Add(IEvent);
+        }
+
+        public void DeleteEvent(IEvent IEvent)
+        {
+            dataContext.events.Remove(IEvent);
+        }
+
+        public List<IEvent> GetAllEvents()
+        {
+            return dataContext.events;
+        }
+
+        public List<int> GetAllEventIds()
+        {
+            return null;
+        }
+
+        public IEvent GetEventById(int id)
+        {
+            return dataContext.events.Find(e => e.Id == id);
+        }
+
+
+
+
+        // --------------- State ---------------  
+
+        public void AddState(State state)
+        {
+            dataContext.states.Add(state);
+        }
+
+        public void DeleteState(State state)
+        {
+            dataContext.states.Remove(state);
+        }
+
+        public List<State> GetAllStates()
+        {
+            return dataContext.states;
+        }
+
+        public List<int> GetAllStateIds()
+        {
+            return null;
+        }
+
+        public State GetStateById(int id)
+        {
+            return dataContext.states.Find(state => state.Id == id);
         }
     }
 }

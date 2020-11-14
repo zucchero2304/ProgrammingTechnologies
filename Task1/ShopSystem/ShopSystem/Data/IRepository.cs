@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopSystem
+namespace ShopSystem.Data
 {
-
-    // Repository's main duty is to communicate with a database.
-    // Here we define basic CRUD (create, remove, update, delete) methods 
-    // that represent business logic functionality
-
-
     interface IRepository
     {
-        // Products 
-        List<Product> GetAllProducts();
+        IEnumerable<Product> GetAllProducts();
+        IEnumerable<int> GetAllProductIds();
         Product GetProductById(int id);
         void AddProduct(Product product);
         void DeleteProduct(int id);
 
 
-        // Clients 
         List<Client> GetAllClients();
-        Client GetClientById(string id);
+        List<int> GetAllClientsIds();
+        Client GetClientById(int id);
         void AddClient(Client client);
-        void DeleteClient(string id);
+        void DeleteClient(Client client);
 
 
-        // Events 
-        List<Event> GetAllEvents();
-        Event GetEventById(int id);
-        //void DeleteEvent(string id);
-        // void AddEvent(ShopEvent event);
+        List<IEvent> GetAllEvents();
+        List<int> GetAllEventIds();
+        IEvent GetEventById(int id);
+        void AddEvent(IEvent IEvent);
+        void DeleteEvent(IEvent IEvent);
+
+
+
+        List<State> GetAllStates();
+        List<int> GetAllStateIds();
+        State GetStateById(int id);
+        void AddState(State state);
+        void DeleteState(State state);
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace ShopSystem
+namespace ShopSystem.Data
 {
 	public class State
 	{
-		private int id;
-		private Product product;
+		private IEnumerable<Product> products;
 
-		public State()
+		public State(IEnumerable<Product> _products)
 		{
-		
+			products = _products;
 		}
-	}
+
+		public IEnumerable<Product> Products => products;
+    }
 }
 
