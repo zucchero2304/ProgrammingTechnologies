@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ShopSystem.Data
 {
-    interface IContentGenerator
+    public interface IContentGenerator
     {
-        void GenerateContent(DataContext context);
+        DataContext GenerateContent();
     }
 }

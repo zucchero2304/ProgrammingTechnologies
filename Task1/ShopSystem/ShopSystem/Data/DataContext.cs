@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ShopSystem.Data
 {
-    class DataContext
+    public class DataContext
     {
-        public Dictionary<int, Product> products;
-        public List<IEvent> events; 
-        public List<State> states;
-        public List<Client> clients;
+        public Dictionary<int, Product> products = new Dictionary<int, Product>();
+        public List<IEvent> events = new List<IEvent>();
+        public List<State> states = new List<State>();
+        public List<Client> clients = new List<Client>();
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ShopSystem.Data;
 
-namespace ShopSystem.Data
+namespace ShopSystemTest
 {
     class ContentGenerator : IContentGenerator
     {
-        public void GenerateContent(DataContext context)
+        public DataContext GenerateContent()
         {
-
-            // add clients 
+            DataContext context = new DataContext();
 
             Client client1 = new Client(1, "L", "P");
             Client client2 = new Client(2, "R", "P");
@@ -18,6 +18,7 @@ namespace ShopSystem.Data
             context.clients.Add(client2);
 
             // add items 
+
             Product product1 = new Product(1, 20, Category.books);
             Product product2 = new Product(2, 30, Category.drugs);
             Product product3 = new Product(3, 40, Category.electronics);
@@ -31,14 +32,16 @@ namespace ShopSystem.Data
             State state1 = new State(product1);
             State state2 = new State(product2);
 
-            EventPurchase eventPurchase1 = new EventPurchase(state1, client1.Id, 1);
-            EventPurchase eventPurchase2 = new EventPurchase(state2, client2.Id, 2);
+            EventPurchase eventPurchase1 = new EventPurchase(state1, client1);
+            EventPurchase eventPurchase2 = new EventPurchase(state2, client2);
 
             context.states.Add(state1);
             context.states.Add(state2);
 
             context.events.Add(eventPurchase1);
             context.events.Add(eventPurchase2);
+
+            return context;
         }
     }
 }

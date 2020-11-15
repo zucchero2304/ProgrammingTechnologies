@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ShopSystem.Data
 {
-    class Repository : IRepository
+    public class Repository : IRepository
     {
         private DataContext dataContext;
 
@@ -18,9 +17,13 @@ namespace ShopSystem.Data
 
         // --------------- Client -----------------  
 
-
         public void AddClient(Client client)
         {
+            if (!NoSuchClientId(client.Id))
+            {
+                throw new Exception();
+            }
+
             dataContext.clients.Add(client);
         }
 
@@ -40,7 +43,6 @@ namespace ShopSystem.Data
             {
                 throw new KeyNotFoundException();
             }
-
             return dataContext.clients.Find(client => client.Id == id);
         }
 
@@ -64,8 +66,6 @@ namespace ShopSystem.Data
         {
             return !dataContext.clients.Exists(c => c.Id == id);
         }
-
-
 
 
 
@@ -124,12 +124,7 @@ namespace ShopSystem.Data
         }
 
         public void DeleteEvent(IEvent IEvent)
-        { 
-            if (NoSuchEventId(IEvent.Id))
-            {
-                throw new KeyNotFoundException();
-            }
-
+        {
             dataContext.events.Remove(IEvent);
         }
 
@@ -138,37 +133,10 @@ namespace ShopSystem.Data
             return dataContext.events;
         }
 
-        public List<int> GetAllEventIds()
-        {
-            List<int> ids = new List<int>();
-            foreach (IEvent IEvent in dataContext.events)
-            {
-                ids.Add(IEvent.Id);
-            }
-            return ids;
-        }
-
-        public IEvent GetEventById(int id)
-        {
-            if (NoSuchEventId(id))
-            {
-                throw new KeyNotFoundException();
-            }
-
-            return dataContext.events.Find(e => e.Id == id);
-        }
-
-        bool NoSuchEventId(int id)
-        {
-            return !dataContext.events.Exists(e => e.Id == id);
-        }
-
-
 
 
 
         // --------------- State ---------------  
-
 
         public void AddState(State state)
         {
@@ -177,9 +145,9 @@ namespace ShopSystem.Data
 
         public void DeleteState(State state)
         {
-            if (NoSuchStateId(state.Id))
+            if (NoSuchState(state))
             {
-                throw new KeyNotFoundException();
+                throw new Exception();
             }
 
             dataContext.states.Remove(state);
@@ -191,7 +159,7 @@ namespace ShopSystem.Data
         }
 
         
-        public List<int> GetAllStateIds()
+        /*public List<int> GetAllStateIds()
         {
             List<int> ids = new List<int>();
            
@@ -204,17 +172,16 @@ namespace ShopSystem.Data
 
         public State GetStateById(int id)
         {
-            if (NoSuchStateId(id))
+            if (NoSuchStateI(id))
             {
                 throw new KeyNotFoundException();
             }
             return dataContext.states.Find(state => state.Id == id);
-        }
+        }*/
 
-        bool NoSuchStateId(int id)
+        bool NoSuchState(State state)
         {
-            return !dataContext.states.Exists(s => s.Id == id);
+            return !dataContext.states.Exists(s => s.Equals(state));
         } 
-
     }
 }

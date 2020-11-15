@@ -5,7 +5,7 @@ using ShopSystem.Data;
 
 namespace ShopSystem.Logic
 {
-    class DataService
+    public class DataService
     {
         private IRepository repository;
 
@@ -16,29 +16,40 @@ namespace ShopSystem.Logic
 
 
 
-
         // --------------- Product -----------------  
 
-
-        public void AddProductToSystem(double price, Category category)
+        public void AddProduct(int id, double price, Category category)
         {
-            int id = GenerateId((List<int>)repository.GetAllProductIds());
             repository.AddProduct(new Product(id, price, category));
         }
 
-        public void DeleteProductFromSystem(int id)
+        public void DeleteProduct(int id)
         {
             repository.DeleteProduct(id);
         }
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return repository.GetAllProducts(); 
+            return repository.GetAllProducts();
         }
 
         public Product GetProductById(int id)
         {
             return repository.GetProductById(id);
+        }
+
+        public List<IEvent> GetAllProductEvents(Product product)
+        {
+            List<IEvent> events = new List<IEvent>();
+
+            foreach(IEvent e in repository.GetAllEvents())
+            {
+                if (e.State.Product.Equals(product))
+                {
+                    events.Add(e);
+                }
+            }
+            return events;
         }
 
 
@@ -47,14 +58,13 @@ namespace ShopSystem.Logic
 
         // --------------- Client -----------------  
 
-        public void AddClient(String name, String surname)
+        public void AddClient(int id, String name, String surname)
         {
-            int id = GenerateId(repository.GetAllClientsIds());
+            //int id = GenerateId(repository.GetAllClientsIds());
             repository.AddClient(new Client(id, name, surname));
         }
 
-
-        public void DeleteClientFromSystem(Client client)
+        public void DeleteClient(Client client)
         {
             repository.DeleteClient(client);
         }
@@ -69,13 +79,14 @@ namespace ShopSystem.Logic
             return repository.GetClientById(id);
         }
 
-
         public List<IEvent> GetAllClientEvents(int id)
         {
             List<IEvent> events = new List<IEvent>();
-            foreach( IEvent ev in repository.GetAllEvents())
+            Client client = repository.GetClientById(id);
+
+            foreach(IEvent ev in repository.GetAllEvents())
             {
-                if (ev.ClientId.Equals(id))
+                if (ev.Client.Equals(client))
                 {
                     events.Add(ev);
                 }
@@ -86,21 +97,17 @@ namespace ShopSystem.Logic
 
 
 
+
         // --------------- Actions -----------------  
 
         public void PurchaseProduct(int productId, int clientId)
         {
-            Client client = repository.GetClientById(clientId);
             Product product = repository.GetProductById(productId);
-            
-            // exception will be thrown if smth is wrong 
+            Client client = repository.GetClientById(clientId);
+            State state = new State(product);
 
             repository.DeleteProduct(productId);
-
-            State state = new State(product);
-            int dummyId = 2;
-
-            repository.AddEvent(new EventPurchase(state, clientId, dummyId));
+            repository.AddEvent(new EventPurchase(state, client));
             repository.AddState(state);
         }
 
@@ -108,20 +115,15 @@ namespace ShopSystem.Logic
         public void ReturnProduct(Product product, int clientId)
         {
             Client client = repository.GetClientById(clientId);
-
-            // how to check nicely whether a product with such id exists? 
-         
-            repository.AddProduct(product);
-
             State state = new State(product);
 
-            int dummyId = 2;
-            repository.AddEvent(new EventReturn(state, clientId, dummyId));
+            repository.AddProduct(product);
+            repository.AddEvent(new EventReturn(state, client));
             repository.AddState(state);
         }
 
-
-        private int GenerateId(List<int> collection)
+       
+        /* private int GenerateId(List<int> collection)
         {
             int id = 0;
 
@@ -129,8 +131,7 @@ namespace ShopSystem.Logic
             {
                 id++;
             }
-
             return id;
-        }
+        } */
     }
 }

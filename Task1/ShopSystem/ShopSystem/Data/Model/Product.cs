@@ -11,7 +11,6 @@ namespace ShopSystem.Data
         private double price;
         private Category category;
         
-
         public int Id => id;
         public double Price => price;
         public Category Category => category;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ShopSystem.Data
 {
-    interface IRepository
+    public interface IRepository
     {
         IEnumerable<Product> GetAllProducts();
         IEnumerable<int> GetAllProductIds();
@@ -23,8 +23,6 @@ namespace ShopSystem.Data
 
 
         List<IEvent> GetAllEvents();
-        List<int> GetAllEventIds();
-        IEvent GetEventById(int id);
         void AddEvent(IEvent IEvent);
         void DeleteEvent(IEvent IEvent);
 
