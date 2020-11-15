@@ -1,5 +1,0 @@
-﻿TO DO:
-
-1. add enum as a category to the product 
-2. add id generation 
-think about how to handle cases in which obj with a given id doesn't exist 

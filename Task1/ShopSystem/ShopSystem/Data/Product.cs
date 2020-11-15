@@ -9,20 +9,22 @@ namespace ShopSystem.Data
     {
         private int id;
         private double price;
-        private Categories category;
+        private Category category;
         
 
         public int Id => id;
         public double Price => price;
+        public Category Category => category;
 
-        public Product(int _id, double _price, Categories _category)
+        public Product(int _id, double _price, Category _category)
         {
             id = _id;
             price = _price;
             category = _category;
         }
     }
-    public enum Categories
+
+    public enum Category
     {
         food, 
         electronics,

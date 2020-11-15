@@ -13,11 +13,13 @@ namespace ShopSystem.Data
         void DeleteProduct(int id);
 
 
+
         List<Client> GetAllClients();
         List<int> GetAllClientsIds();
         Client GetClientById(int id);
         void AddClient(Client client);
         void DeleteClient(Client client);
+
 
 
         List<IEvent> GetAllEvents();
@@ -29,8 +31,6 @@ namespace ShopSystem.Data
 
 
         List<State> GetAllStates();
-        List<int> GetAllStateIds();
-        State GetStateById(int id);
         void AddState(State state);
         void DeleteState(State state);
     }

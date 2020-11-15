@@ -15,7 +15,9 @@ namespace ShopSystem.Data
 
 
 
+
         // --------------- Client -----------------  
+
 
         public void AddClient(Client client)
         {
@@ -24,19 +26,22 @@ namespace ShopSystem.Data
 
         public void DeleteClient(Client client)
         {
-            if (ContainsClientId(client.Id))
+            if (NoSuchClientId(client.Id))
             {
-                dataContext.clients.Remove(client);
+                throw new KeyNotFoundException();
             }
+
+            dataContext.clients.Remove(client);
         }
 
         public Client GetClientById(int id)
         {
-            if (ContainsClientId(id))
+            if (NoSuchClientId(id))
             {
-                return dataContext.clients.Find(client => client.Id == id);
+                throw new KeyNotFoundException();
             }
-            return default(Client);
+
+            return dataContext.clients.Find(client => client.Id == id);
         }
 
         public List<Client> GetAllClients()
@@ -55,15 +60,17 @@ namespace ShopSystem.Data
             return ids;
         }
 
-         bool ContainsClientId(int id)
+        bool NoSuchClientId(int id)
         {
-            return dataContext.clients.Exists(c => c.Id == id);
+            return !dataContext.clients.Exists(c => c.Id == id);
         }
 
 
 
-        // --------------- Product -----------------  
 
+
+
+        // --------------- Product -----------------  
 
         public void AddProduct(Product product)
         {
@@ -72,20 +79,22 @@ namespace ShopSystem.Data
 
         public void DeleteProduct(int id)
         {
-            if (ContainsProductKey(id))
+            if (NoSuchProductId(id))
             {
-                dataContext.products.Remove(id);
+                throw new KeyNotFoundException();
             }
-        }
 
+            dataContext.products.Remove(id);
+        }
 
         public Product GetProductById(int id)
         {
-            if (ContainsProductKey(id))
+            if (NoSuchProductId(id))
             {
-                return dataContext.products[id];
+                throw new KeyNotFoundException();
             }
-            return default(Product);
+
+            return dataContext.products[id];
         }
 
         public IEnumerable<Product> GetAllProducts()
@@ -98,11 +107,12 @@ namespace ShopSystem.Data
             return dataContext.products.Keys;
         }
 
-        public bool ContainsProductKey(int id)
+        public bool NoSuchProductId(int id)
         {
-            return dataContext.products.ContainsKey(id);
+            return !dataContext.products.ContainsKey(id);
         }
 
+   
 
 
 
@@ -114,7 +124,12 @@ namespace ShopSystem.Data
         }
 
         public void DeleteEvent(IEvent IEvent)
-        {
+        { 
+            if (NoSuchEventId(IEvent.Id))
+            {
+                throw new KeyNotFoundException();
+            }
+
             dataContext.events.Remove(IEvent);
         }
 
@@ -125,18 +140,35 @@ namespace ShopSystem.Data
 
         public List<int> GetAllEventIds()
         {
-            return null;
+            List<int> ids = new List<int>();
+            foreach (IEvent IEvent in dataContext.events)
+            {
+                ids.Add(IEvent.Id);
+            }
+            return ids;
         }
 
         public IEvent GetEventById(int id)
         {
+            if (NoSuchEventId(id))
+            {
+                throw new KeyNotFoundException();
+            }
+
             return dataContext.events.Find(e => e.Id == id);
         }
+
+        bool NoSuchEventId(int id)
+        {
+            return !dataContext.events.Exists(e => e.Id == id);
+        }
+
 
 
 
 
         // --------------- State ---------------  
+
 
         public void AddState(State state)
         {
@@ -145,6 +177,11 @@ namespace ShopSystem.Data
 
         public void DeleteState(State state)
         {
+            if (NoSuchStateId(state.Id))
+            {
+                throw new KeyNotFoundException();
+            }
+
             dataContext.states.Remove(state);
         }
 
@@ -153,14 +190,31 @@ namespace ShopSystem.Data
             return dataContext.states;
         }
 
+        
         public List<int> GetAllStateIds()
         {
-            return null;
+            List<int> ids = new List<int>();
+           
+            foreach (State state in dataContext.states)
+            {
+                ids.Add(state.Id);
+            }
+            return ids;
         }
 
         public State GetStateById(int id)
         {
+            if (NoSuchStateId(id))
+            {
+                throw new KeyNotFoundException();
+            }
             return dataContext.states.Find(state => state.Id == id);
         }
+
+        bool NoSuchStateId(int id)
+        {
+            return !dataContext.states.Exists(s => s.Id == id);
+        } 
+
     }
 }

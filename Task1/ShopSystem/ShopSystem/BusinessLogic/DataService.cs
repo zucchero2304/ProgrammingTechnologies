@@ -17,8 +17,19 @@ namespace ShopSystem.Logic
 
 
 
-
         // --------------- Product -----------------  
+
+
+        public void AddProductToSystem(double price, Category category)
+        {
+            int id = GenerateId((List<int>)repository.GetAllProductIds());
+            repository.AddProduct(new Product(id, price, category));
+        }
+
+        public void DeleteProductFromSystem(int id)
+        {
+            repository.DeleteProduct(id);
+        }
 
         public IEnumerable<Product> GetAllProducts()
         {
@@ -30,23 +41,23 @@ namespace ShopSystem.Logic
             return repository.GetProductById(id);
         }
 
-        public void AddProductToSystem(double price, Categories category)
-        {
-            int id = GenerateId((List<int>)repository.GetAllProductIds());
-            repository.AddProduct(new Product(id, price, category));
-        }
-
-        public void DeleteProductFromSystem(int id)
-        {
-            repository.DeleteProduct(id);
-        }
-
-
 
 
 
 
         // --------------- Client -----------------  
+
+        public void AddClient(String name, String surname)
+        {
+            int id = GenerateId(repository.GetAllClientsIds());
+            repository.AddClient(new Client(id, name, surname));
+        }
+
+
+        public void DeleteClientFromSystem(Client client)
+        {
+            repository.DeleteClient(client);
+        }
 
         public List<Client> GetAllClients()
         {
@@ -56,19 +67,6 @@ namespace ShopSystem.Logic
         public Client GetClient(int id)
         {
             return repository.GetClientById(id);
-        }
-
-
-        public void AddClient(String name, String surname)
-        {
-            int id = GenerateId(repository.GetAllClientsIds());
-            repository.AddClient(new Client(id, name, surname));
-        }
-        
-
-        public void DeleteClientFromSystem(int id)
-        {
-            // id must exist
         }
 
 
@@ -88,16 +86,18 @@ namespace ShopSystem.Logic
 
 
 
-
         // --------------- Actions -----------------  
 
         public void PurchaseProduct(int productId, int clientId)
         {
-            // both client and product must be in the system
+            Client client = repository.GetClientById(clientId);
+            Product product = repository.GetProductById(productId);
             
+            // exception will be thrown if smth is wrong 
+
             repository.DeleteProduct(productId);
 
-            State state = new State(GetAllProducts());
+            State state = new State(product);
             int dummyId = 2;
 
             repository.AddEvent(new EventPurchase(state, clientId, dummyId));
@@ -106,12 +106,14 @@ namespace ShopSystem.Logic
 
 
         public void ReturnProduct(Product product, int clientId)
-        {       
-            // client must be in the system 
-            // product cannot be in the system 
+        {
+            Client client = repository.GetClientById(clientId);
 
-             repository.AddProduct(product);
-             State state = new State(GetAllProducts());
+            // how to check nicely whether a product with such id exists? 
+         
+            repository.AddProduct(product);
+
+            State state = new State(product);
 
             int dummyId = 2;
             repository.AddEvent(new EventReturn(state, clientId, dummyId));
@@ -129,13 +131,6 @@ namespace ShopSystem.Logic
             }
 
             return id;
-        }
-
-
-        public void GenerateReportForClient(int id)
-        {
-            // print all client events information
-
         }
     }
 }
