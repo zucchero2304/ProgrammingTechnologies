@@ -38,7 +38,7 @@ namespace ShopSystemTest
             Client existingClient = service.GetClient(1);
             service.DeleteClient(existingClient);
            
-            Assert.AreEqual(service.GetAllClients().Count, 1);
+            Assert.AreEqual(service.GetAllClients().Count, 1); //1, because at the beginning we had 2 clients
         }
 
         [TestMethod] 

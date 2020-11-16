@@ -62,7 +62,7 @@ namespace ShopSystem.Data
             return ids;
         }
 
-        bool NoSuchClientId(int id)
+        public bool NoSuchClientId(int id)
         {
             return !dataContext.clients.Exists(c => c.Id == id);
         }
@@ -179,9 +179,10 @@ namespace ShopSystem.Data
             return dataContext.states.Find(state => state.Id == id);
         }*/
 
-        bool NoSuchState(State state)
+        public bool NoSuchState(State state)
         {
             return !dataContext.states.Exists(s => s.Equals(state));
         } 
+
     }
 }
