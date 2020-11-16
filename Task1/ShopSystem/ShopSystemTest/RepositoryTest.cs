@@ -18,6 +18,7 @@ namespace ShopSystemTest
         }
 
 
+        
         [TestMethod]
         public void CheckInitialState()
         {
@@ -130,6 +131,31 @@ namespace ShopSystemTest
             //delete after its added
             repository.DeleteState(state);
             Assert.IsFalse(repository.GetAllStates().Contains(state));
+        }       
+
+       [TestMethod] 
+        public void RandomContent()
+        {
+            RandomContentGenerator random = new RandomContentGenerator();
+            repository = new Repository(random.GenerateContent());
+
+            //Assert.IsTrue(IsUnique(repository.GetAllClientsIds()));
+
         }
+
+        private bool IsUnique(IEnumerable<int> list)
+        {
+            HashSet<int> uniqueValues = new HashSet<int>();
+
+            foreach (int id in list)
+            {
+                if (!uniqueValues.Add(id))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        } 
     }
 }

@@ -158,26 +158,6 @@ namespace ShopSystem.Data
             return dataContext.states;
         }
 
-        
-        /*public List<int> GetAllStateIds()
-        {
-            List<int> ids = new List<int>();
-           
-            foreach (State state in dataContext.states)
-            {
-                ids.Add(state.Id);
-            }
-            return ids;
-        }
-
-        public State GetStateById(int id)
-        {
-            if (NoSuchStateI(id))
-            {
-                throw new KeyNotFoundException();
-            }
-            return dataContext.states.Find(state => state.Id == id);
-        }*/
 
         public bool NoSuchState(State state)
         {
