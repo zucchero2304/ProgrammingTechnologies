@@ -114,13 +114,23 @@ namespace ShopSystemTest
         [TestMethod]
         public void MakingPurchase()
         {
-
+            service.PurchaseProduct(3, 2);
+            Assert.ThrowsException<KeyNotFoundException>(
+                () => service.GetProductById(3));
+            List<IEvent> productEvents = service.GetAllClientEvents(2);
+            Assert.IsTrue(productEvents[1].Client.Id.Equals(2));
+            Assert.IsTrue(productEvents[1].State.Product.Id.Equals(3));
         }
 
         [TestMethod]
         public void MakingReturn()
         {
-
+            Product product = service.GetProductById(1);
+            service.PurchaseProduct(1, 1);
+            service.ReturnProduct(product, 1);
+            List<IEvent> productEvents = service.GetAllClientEvents(1);
+            Assert.IsTrue(productEvents[2].Client.Id.Equals(1));
+            Assert.IsTrue(productEvents[2].State.Product.Id.Equals(1));
         }
 
     }
