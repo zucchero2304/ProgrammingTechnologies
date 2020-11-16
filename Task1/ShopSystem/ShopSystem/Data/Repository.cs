@@ -21,7 +21,7 @@ namespace ShopSystem.Data
         {
             if (!NoSuchClientId(client.Id))
             {
-                throw new Exception();
+                throw new Exception("Client with an id " + client.Id + " already exists");
             }
 
             dataContext.clients.Add(client);
@@ -31,7 +31,7 @@ namespace ShopSystem.Data
         {
             if (NoSuchClientId(client.Id))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Client with an id " + client.Id + " is not found");
             }
 
             dataContext.clients.Remove(client);
@@ -41,7 +41,7 @@ namespace ShopSystem.Data
         {
             if (NoSuchClientId(id))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Client with an id " + id + " is not found");
             }
             return dataContext.clients.Find(client => client.Id == id);
         }
@@ -74,6 +74,10 @@ namespace ShopSystem.Data
 
         public void AddProduct(Product product)
         {
+            if (!NoSuchProductId(product.Id))
+            {
+                throw new Exception("Product with an id " + product.Id + " already exists");
+            }
             dataContext.products.Add(product.Id, product);
         }
 
@@ -81,7 +85,7 @@ namespace ShopSystem.Data
         {
             if (NoSuchProductId(id))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Product with an id " + id + " is not found");
             }
 
             dataContext.products.Remove(id);
@@ -91,7 +95,7 @@ namespace ShopSystem.Data
         {
             if (NoSuchProductId(id))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Product with an id " + id + " is not found");
             }
 
             return dataContext.products[id];

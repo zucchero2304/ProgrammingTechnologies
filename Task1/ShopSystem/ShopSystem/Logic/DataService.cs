@@ -120,7 +120,7 @@ namespace ShopSystem.Logic
 
             if (productEvents.Last<IEvent>() is EventReturn)
             {
-                throw new Exception();
+                throw new Exception("Product is either not in the shop or wasn't yet purchased");
             }
 
             State state = new State(product);

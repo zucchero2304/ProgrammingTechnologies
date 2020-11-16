@@ -20,7 +20,7 @@ namespace ShopSystemTest
         {
             int NumberOfClients = 10;
             int NumberOfProducts = 20;
-            int NumberOfEvents = 3;
+            int NumberOfEvents = 5;
 
             List<int> clientIds = RandomIntList(NumberOfClients);
             List<int> productIds = RandomIntList(NumberOfProducts);
@@ -43,22 +43,29 @@ namespace ShopSystemTest
             for (int i = 0; i < NumberOfProducts; i++)
             {
                 int id = productIds[i];
-                context.products.Add(id, new Product(id, RandomInt(), categories[RandomInt() % categories.Count]));
+                Category category = categories[RandomInt() % categories.Count];
+                context.products.Add(id, new Product(id, RandomInt(), category));
             }
-
-            Console.WriteLine(productIds.ToString());
 
             for (int i = 0; i < NumberOfEvents; i++)
             {
-                Product product = context.products[productIds[RandomInt() % productIds.Count]];
-                Client client = context.clients.Find(c => c.Id == RandomInt() % clientIds.Count);
+                Product product = context.products[
+                    productIds[RandomInt() % productIds.Count]];
+
+                Client client = context.clients
+                    .Find(c => c.Id == RandomInt() % clientIds.Count);
+
                 context.events.Add(new EventPurchase(new State(product), client));
             }
 
             for (int i = 0; i < NumberOfEvents; i++)
             {
-                Product product = context.products[productIds[RandomInt() % productIds.Count]];
-                Client client = context.clients.Find(c => c.Id == RandomInt() % clientIds.Count);
+                Product product = context.products[
+                    productIds[RandomInt() % productIds.Count]];
+
+                Client client = context.clients
+                    .Find(c => c.Id == RandomInt() % clientIds.Count);
+
                 context.events.Add(new EventReturn(new State(product), client));
             }
 
@@ -67,9 +74,10 @@ namespace ShopSystemTest
 
         public string RandomString(int length)
         {
-            const string chars = "abcdefghijklmnropqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string chars = "abcdefghijklmnropqrstuvwxyz";
             var random = new Random();
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         public List<string> RandomStringList(int howMany, int length)
