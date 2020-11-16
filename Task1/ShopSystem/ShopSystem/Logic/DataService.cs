@@ -9,7 +9,7 @@ namespace ShopSystem.Logic
     {
         private IRepository repository;
 
-        public DataService(IRepository repository) 
+        public DataService(IRepository repository)
         {
             this.repository = repository;
         }
@@ -42,7 +42,7 @@ namespace ShopSystem.Logic
         {
             List<IEvent> events = new List<IEvent>();
 
-            foreach(IEvent e in repository.GetAllEvents())
+            foreach (IEvent e in repository.GetAllEvents())
             {
                 if (e.State.Product.Equals(product))
                 {
@@ -84,7 +84,7 @@ namespace ShopSystem.Logic
             List<IEvent> events = new List<IEvent>();
             Client client = repository.GetClientById(id);
 
-            foreach(IEvent ev in repository.GetAllEvents())
+            foreach (IEvent ev in repository.GetAllEvents())
             {
                 if (ev.Client.Equals(client))
                 {
@@ -122,7 +122,7 @@ namespace ShopSystem.Logic
             repository.AddState(state);
         }
 
-       
+
         /* private int GenerateId(List<int> collection)
         {
             int id = 0;
