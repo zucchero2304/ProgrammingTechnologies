@@ -39,12 +39,12 @@ namespace ShopSystemTest
 
         [TestMethod]
         public void RemoveClient()
-        {   //existing
+        {   // existing
             Client client1 = repository.GetClientById(1);
             repository.DeleteClient(client1);
             Assert.ThrowsException<KeyNotFoundException>(
                 () => repository.GetClientById(1));
-            //non existing
+            // non existing
             Client client2 = new Client(3, "K", "M");
             Assert.ThrowsException<KeyNotFoundException>(
                 () => repository.DeleteClient(client2));
