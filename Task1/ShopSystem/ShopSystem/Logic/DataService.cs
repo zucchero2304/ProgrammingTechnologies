@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using ShopSystem.Data;
 
 namespace ShopSystem.Logic
@@ -60,7 +61,6 @@ namespace ShopSystem.Logic
 
         public void AddClient(int id, String name, String surname)
         {
-            //int id = GenerateId(repository.GetAllClientsIds());
             repository.AddClient(new Client(id, name, surname));
         }
 
@@ -115,23 +115,18 @@ namespace ShopSystem.Logic
         public void ReturnProduct(Product product, int clientId)
         {
             Client client = repository.GetClientById(clientId);
-            State state = new State(product);
 
-            repository.AddProduct(product);
-            repository.AddEvent(new EventReturn(state, client));
-            repository.AddState(state);
-        }
+            List<IEvent> productEvents = GetAllProductEvents(product);
 
-       
-        /* private int GenerateId(List<int> collection)
-        {
-            int id = 0;
-
-            while (collection.Contains(id))
+            if (productEvents.Last<IEvent>() is EventReturn)
             {
-                id++;
+                throw new Exception();
             }
-            return id;
-        } */
+           
+              State state = new State(product);
+              repository.AddProduct(product);
+              repository.AddEvent(new EventReturn(state, client));
+              repository.AddState(state);
+        }
     }
 }

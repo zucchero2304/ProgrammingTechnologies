@@ -46,23 +46,21 @@ namespace ShopSystemTest
                 context.products.Add(id, new Product(id, RandomInt(), categories[RandomInt() % categories.Count]));
             }
 
-            // here error is thrown 
-           /* for (int i = 0; i < NumberOfEvents; i++)
-            { 
-                Product product = context.products[productIds[i]];
+            Console.WriteLine(productIds.ToString());
 
-                Client client = context.clients[clientIds[i]];
-
-                context.events.Add(new EventPurchase(new State(product), client));
-            } */
-
-
-           /* for (int i = 0; i < NumberOfEvents; i++)
+            for (int i = 0; i < NumberOfEvents; i++)
             {
-                Product product = context.products[RandomInt() % con];
-                Client client = context.clients[RandomInt() % context.clients.Count];
+                Product product = context.products[productIds[RandomInt() % productIds.Count]];
+                Client client = context.clients.Find(c => c.Id == RandomInt() % clientIds.Count);
+                context.events.Add(new EventPurchase(new State(product), client));
+            }
+
+            for (int i = 0; i < NumberOfEvents; i++)
+            {
+                Product product = context.products[productIds[RandomInt() % productIds.Count]];
+                Client client = context.clients.Find(c => c.Id == RandomInt() % clientIds.Count);
                 context.events.Add(new EventReturn(new State(product), client));
-            } */
+            }
 
             return context;
         }
@@ -78,18 +76,14 @@ namespace ShopSystemTest
         {
             List<string> strings = new List<string>();
             string str = RandomString(length);
-            strings.Add(str);
 
             for (int i = 0; i < howMany - 1; i++)
             {
-                while (strings.Contains(str))
-                {
-                    str = RandomString(length);
-                }
                 strings.Add(RandomString(length));
             }
             return strings;
         }
+
 
         public int RandomInt()
         {

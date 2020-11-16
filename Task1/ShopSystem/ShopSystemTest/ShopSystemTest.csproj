@@ -17,8 +17,4 @@
     <ProjectReference Include="..\ShopSystem\ShopSystem.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Tests\" />
-  </ItemGroup>
-
 </Project>

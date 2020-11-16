@@ -139,8 +139,8 @@ namespace ShopSystemTest
             RandomContentGenerator random = new RandomContentGenerator();
             repository = new Repository(random.GenerateContent());
 
-            //Assert.IsTrue(IsUnique(repository.GetAllClientsIds()));
-
+            Assert.IsTrue(IsUnique(repository.GetAllClientsIds()));
+            Assert.IsTrue(IsUnique(repository.GetAllProductIds()));
         }
 
         private bool IsUnique(IEnumerable<int> list)
@@ -154,7 +154,6 @@ namespace ShopSystemTest
                     return false;
                 }
             }
-
             return true;
         } 
     }
