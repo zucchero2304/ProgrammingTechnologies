@@ -11,6 +11,9 @@ namespace DataTest
     public class ClientRepositoryTests
     {
         ClientRepository repository = new ClientRepository();
+        PurchaseEventRepository eventRepository = new PurchaseEventRepository();
+
+        [TestInitialize]
 
         [TestMethod]
         public void AddClient()
@@ -48,10 +51,18 @@ namespace DataTest
             {
                 Client clientToDelete = repository.GetAllClients()[repository.GetNumberOfClients() - 1];
 
-                repository.DeleteClient(clientToDelete.Id);
-                
-                Assert.IsNull(repository.GetClientById(clientToDelete.Id));
+                if (HasNoEvents(clientToDelete.Id))
+                {
+                    repository.DeleteClient(clientToDelete.Id);
+
+                    Assert.IsNull(repository.GetClientById(clientToDelete.Id));
+                }
             }
+        }
+
+        private bool HasNoEvents(int id)
+        {
+            return eventRepository.GetPurchaseEventsByClientId(id).Count.Equals(0);
         }
 
         [TestMethod]
