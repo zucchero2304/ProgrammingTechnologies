@@ -1,3 +1,6 @@
+
+using System.Linq;
+using Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataTests
@@ -8,6 +11,10 @@ namespace DataTests
         [TestMethod]
         public void TestMethod1()
         {
+            using (ShopDataContext db = new ShopDataContext())
+            {
+
+            }
         }
     }
 }
