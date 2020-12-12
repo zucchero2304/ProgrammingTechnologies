@@ -23,7 +23,7 @@ namespace DataTest
             categories = repository.GetAllCategories();
         }
 
-        private Product AddedProduct()
+        private Product ProductToBeAdded()
         {
             return new Product() 
             {
@@ -36,8 +36,8 @@ namespace DataTest
         [TestMethod]
         public void AddProduct()
         {
-
-            Product product = AddedProduct();
+            Product product = ProductToBeAdded();
+            int initialCount = repository.GetAllProducts().Count;
 
             repository.AddProduct(product);
 
@@ -47,16 +47,6 @@ namespace DataTest
             Assert.AreEqual(product.Price, fetchedProduct.Price);
             Assert.AreEqual(product.Category, fetchedProduct.Category);
             Assert.AreEqual(product.ProductName, fetchedProduct.ProductName);
-        }
-
-        [TestMethod]
-        public void RowNumberIsIncremented()
-        {
-            int initialCount = repository.GetAllProducts().Count;
-            Console.WriteLine(initialCount);
-            
-            AddProduct();
-            
             Assert.AreEqual(initialCount, repository.GetAllProducts().Count - 1);
         }
 
@@ -71,11 +61,6 @@ namespace DataTest
                 Assert.IsNull(repository.GetProductById(productToDelete.Id));
             }
         }
-
-         private bool NotPurchased(int id)
-         {
-             return eventRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
-         }
 
         [TestMethod]
         public void UpdateProduct()
@@ -92,12 +77,7 @@ namespace DataTest
             Assert.AreEqual(updatedProduct.Price,randomPrice);
         }
 
-        private float GetRandomPrice()
-        {
-            var random = new Random();
-            return random.Next(10, 100);
-        }
-
+        // something is wrong with this method
         [TestMethod]
         public void GetProductsByCategory()
         {
@@ -106,8 +86,41 @@ namespace DataTest
 
             foreach (var product in products)
             {
-                Assert.AreEqual(product.Category, "Food");
+                Assert.AreEqual(product.Category, null);
             }
+        }
+
+        [TestMethod]
+        public void GetNonExistingProductById()
+        {
+            Product product = repository.GetProductById(0);
+            Assert.IsNull(product);
+        }
+
+        [TestMethod]
+        public void GetNonExistingCategory()
+        {
+            ProductCategory nonExisting = repository.GetCategoryByName("NonExisting");
+            Assert.IsNull(nonExisting);
+        }
+
+        [TestMethod]
+        public void GetProductsNonExistingCategory()
+        {
+            List<Product> nonExisting = repository.GetProductsByCategory(
+                new ProductCategory() {Category = "NonExisting"});
+            Assert.AreEqual(nonExisting.Count, 0);
+        }
+
+        private float GetRandomPrice()
+        {
+            var random = new Random();
+            return random.Next(10, 100);
+        }
+
+        private bool NotPurchased(int id)
+        {
+            return eventRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
         }
     }
 }

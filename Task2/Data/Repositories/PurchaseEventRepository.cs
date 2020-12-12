@@ -43,21 +43,42 @@ namespace Data
         public void AddPurchaseEvent(PurchaseEvent e)
         {
             using (var db = new ShopDataContext())
-            { 
+            {
                 db.PurchaseEvents.InsertOnSubmit(e);
                 db.SubmitChanges();
             }
-        } 
+        }
 
-        public void UpdatePurchaseEvent(PurchaseEvent e)
+        public void DeletePurchaseEvent(int id)
         {
             using (var db = new ShopDataContext())
             {
-                PurchaseEvent eventToUpdate = db.PurchaseEvents.FirstOrDefault(ev => ev.Id.Equals(e.Id));
-                eventToUpdate.ClientId = e.ClientId;
-                eventToUpdate.ProductId = e.ProductId;
-                eventToUpdate.EventDate = eventToUpdate.EventDate;
-                db.SubmitChanges();
+                PurchaseEvent eventToDelete = db.PurchaseEvents.FirstOrDefault(e => e.Id.Equals(id));
+
+                if (eventToDelete != null)
+                {
+                    db.PurchaseEvents.DeleteOnSubmit(eventToDelete);
+                    db.SubmitChanges();
+                }
+            }
+        }
+
+        public PurchaseEvent GetMostRecent()
+        {
+            using (var db = new ShopDataContext())
+            {
+                return db.PurchaseEvents.Select(p => p).ToList().LastOrDefault();
+            }
+        }
+
+        // needed to verify whether the client has actually purchased a product that he tries to return
+        public PurchaseEvent GetMostRecentByClientIdAndProductId(int clientId, int productId)
+        {
+            using (var db = new ShopDataContext())
+            {
+                return db.PurchaseEvents.Where(p =>
+                    (p.ClientId.Equals(clientId) && (p.ProductId.Equals(productId))))
+                    .ToList().LastOrDefault();
             }
         }
     }

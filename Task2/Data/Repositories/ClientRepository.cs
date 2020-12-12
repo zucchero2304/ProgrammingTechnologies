@@ -41,6 +41,14 @@ namespace Data
             }
         }
 
+        public Client GetLastClient()
+        {
+            using (var db = new ShopDataContext())
+            {
+                return db.Clients.Select(client => client).ToList().LastOrDefault();
+            }
+        }
+
         public void AddClient(Client client)
         {
             using (var db = new ShopDataContext())

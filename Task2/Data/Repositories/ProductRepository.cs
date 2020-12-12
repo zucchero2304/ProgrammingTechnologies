@@ -72,6 +72,14 @@ namespace Data
             }
         }
 
+        public Product GetLastProduct()
+        {
+            using (var db = new ShopDataContext())
+            {
+                return db.Products.Select(product => product).ToList().LastOrDefault();
+            }
+        }
+
         public void AddProduct(Product product)
         {
             using (var db = new ShopDataContext())
@@ -104,8 +112,7 @@ namespace Data
                 if (productToUpdate != null)
                 {
                     productToUpdate.ProductName = p.ProductName;
-                                        productToUpdate.Category = p.Category;
-
+                    productToUpdate.Category = p.Category;
                     productToUpdate.Price = p.Price;
                     db.SubmitChanges();
                 }
@@ -120,7 +127,7 @@ namespace Data
             }
         }
 
-        public ProductCategory GetProductCategoryByName(string category)
+        public ProductCategory GetCategoryByName(string category)
         {
             using (var db = new ShopDataContext())
             {

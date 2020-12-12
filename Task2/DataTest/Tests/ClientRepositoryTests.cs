@@ -13,8 +13,6 @@ namespace DataTest
         ClientRepository repository = new ClientRepository();
         PurchaseEventRepository eventRepository = new PurchaseEventRepository();
 
-        [TestInitialize]
-
         [TestMethod]
         public void AddClient()
         {
@@ -69,12 +67,19 @@ namespace DataTest
         public void UpdateClient()
         {
             Client client = repository.GetAllClients()[0];
-            client.FirstName = "Lizaveta";
+            client.FirstName = "Test";
             repository.UpdateClient(client);
 
             Client updatedClient = repository.GetClientById(client.Id);
 
-            Assert.AreEqual(updatedClient.FirstName, "Lizaveta");
+            Assert.AreEqual(updatedClient.FirstName, "Test");
+        }
+
+        [TestMethod]
+        public void GetNonExistingClient()
+        {
+            Client client = repository.GetClientById(0);
+            Assert.IsNull(client);
         }
     }
 }
