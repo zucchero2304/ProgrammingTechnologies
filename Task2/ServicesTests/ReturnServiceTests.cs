@@ -48,7 +48,6 @@ namespace ServicesTests
             PurchaseEvent fetchedPurchase =
                 purchaseService.GetLastClientPurchaseOfProduct(fetchedClient.Id, fetchedProduct.Id);
 
-
             ReturnEvent returnEvent = new ReturnEvent()
             {
                 ClientId = fetchedClient.Id,
@@ -61,6 +60,55 @@ namespace ServicesTests
             returnService.AddReturnEvent(returnEvent);
 
             Assert.IsNull(purchaseService.GetPurchaseById(fetchedPurchase.Id));
+        }
+
+        [TestMethod]
+        public void PurchaseNotDeletedWithWrongReturnData()
+        {
+            Client client = new Client()
+            {
+                FirstName = "TestService2",
+                LastName = "TestService2"
+            };
+
+            Product product = new Product()
+            {
+                ProductName = "TestName2",
+                Price = 15.0f,
+                Category = new Product() { Category = "Game" }.Category,
+            };
+
+            clientService.AddClient(client);
+            productService.AddProduct(product);
+
+            Client fetchedClient = clientService.GetLastlyAddedClient();
+            Product fetchedProduct = productService.GetLastlyAddedProduct();
+
+            PurchaseEvent purchaseEvent = new PurchaseEvent()
+            {
+                ClientId = fetchedClient.Id,
+                ProductId = fetchedProduct.Id,
+                EventDate = System.DateTime.Now.ToLongDateString()
+            };
+
+            purchaseService.AddPurchaseEvent(purchaseEvent);
+
+            PurchaseEvent fetchedPurchase =
+                purchaseService.GetLastClientPurchaseOfProduct(fetchedClient.Id, fetchedProduct.Id);
+
+            ReturnEvent returnEvent = new ReturnEvent()
+            {
+                ClientId = fetchedClient.Id,
+                ProductId = 0,
+                EventDate = DateTime.Now.ToString()
+            };
+
+            Assert.IsNotNull(purchaseService.GetPurchaseById(fetchedPurchase.Id));
+
+            returnService.AddReturnEvent(returnEvent);
+
+            Assert.IsNotNull(purchaseService.GetPurchaseById(fetchedPurchase.Id));
+
         }
     }
 }
