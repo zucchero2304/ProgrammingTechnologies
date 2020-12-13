@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Presentation"
         xmlns:vm="clr-namespace:Presentation.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
@@ -31,12 +30,25 @@
         <TextBox Grid.Column="1" Grid.Row="1" Margin="4" HorizontalAlignment="Left" Width="200"
                  Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Margin="4" Content="Last Name:" HorizontalAlignment="Right"/>
+        <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,4,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
         <TextBox Grid.Column="1" Grid.Row="2" Margin="4" HorizontalAlignment="Left"  Width="200"
                  Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Grid.Column="1" Grid.Row="3" Width="100" Height="30" Margin="299.667,31.444,318.556,293.667"
-                Command="{Binding AddCommand}"> Add Client </Button>
+        <Button Grid.Column="1" Grid.Row="3" Width="100" Height="30" Margin="70,20.444,425.556,430.889"
+                Command="{Binding AddCommand}">Add Client</Button>
+
+
+        <ListView Margin="4,155.444,-0.444,9.889" ItemsSource="{Binding Clients}" Grid.Row="3" Grid.ColumnSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding _firstName}" />
+                    <GridViewColumn Header="Surname" Width="50" DisplayMemberBinding="{Binding _lastName}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label Content="{Binding Clients.Count}" Grid.ColumnSpan="2" Margin="10,112.444,-0.444,198.889" Grid.Row="3" />
     </Grid>
+
 
 </Window>

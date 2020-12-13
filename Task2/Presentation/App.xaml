@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Presentation"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
+             xmlns:v="clr-namespace:Presentation.View"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-
+        
     </Application.Resources>
 </Application>

@@ -13,6 +13,7 @@ namespace DataTest
         ClientRepository repository = new ClientRepository();
         PurchaseEventRepository eventRepository = new PurchaseEventRepository();
 
+
         [TestMethod]
         public void AddClient()
         {

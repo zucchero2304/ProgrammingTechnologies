@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Model;
 using Service;
@@ -17,10 +18,13 @@ namespace Presentation.ViewModel
 
         private ClientService service;
 
+        private ObservableCollection<ClientModel> clients;
+
+
         public ClientViewModel()
         {
             service = new ClientService();
-
+            clients = new ObservableCollection<ClientModel>(service.GetAllClients());
             addCommand = new RelayCommand(o => { AddClient();});
         }
 
@@ -54,6 +58,16 @@ namespace Presentation.ViewModel
             }
         }
 
+        public ObservableCollection<ClientModel> Clients
+        {
+            get => clients;
+            set
+            {
+                clients = value;
+                OnPropertyChanged("Clients");
+            }
+        }
+
         public ICommand AddCommand
         {
             get
@@ -65,7 +79,6 @@ namespace Presentation.ViewModel
                 return addCommand;
             }
         }
-
 
         private void AddClient()
         {

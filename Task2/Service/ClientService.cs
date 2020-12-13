@@ -9,14 +9,16 @@ namespace Service
         ClientRepository clientRepository = new ClientRepository();
         PurchaseEventRepository eventRepository = new PurchaseEventRepository();
 
-        public List<ClientModel> GetAllClients()
+        public IEnumerable<ClientModel> GetAllClients()
         {
             List<ClientModel> models = new List<ClientModel>();
+
 
             foreach (var client in clientRepository.GetAllClients())
             {
                 models.Add(MapClientDetails(client));
             }
+
             return models;
         }
 

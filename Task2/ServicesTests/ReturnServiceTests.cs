@@ -5,7 +5,7 @@ using Data;
 
 namespace ServicesTests
 {
-    [TestClass]
+   /* [TestClass]
     public class ReturnServiceTests
     {
         ReturnService returnService = new ReturnService();
@@ -110,5 +110,5 @@ namespace ServicesTests
             Assert.IsNotNull(purchaseService.GetPurchaseById(fetchedPurchase.Id));
 
         }
-    }
+    }*/
 }
