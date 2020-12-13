@@ -12,14 +12,6 @@ namespace Presentation.Model
         private IEnumerable<ClientModel> _clients;
         public DataLayer()
         {
-            _clients = new List<ClientModel>()
-            
-            {
-                new ClientModel() {FirstName = "Lizaveta", LastName = "Prakapovich"},
-                new ClientModel() {FirstName = "Remigiusz", LastName = "Piwowarski"},
-                new ClientModel() {FirstName = "Lizaveta2", LastName = "Prakapovich2"},
-                new ClientModel() {FirstName = "Remigiusz2", LastName = "Piwowarski2"}
-            };
         }
 
         public IEnumerable<ClientModel> GetClients()

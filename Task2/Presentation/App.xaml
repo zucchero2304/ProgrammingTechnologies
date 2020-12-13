@@ -5,11 +5,6 @@
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-        <DataTemplate DataType="{x:Type viewModel:ClientListViewModel}">
-            <local:ClientListView/>
-        </DataTemplate>
-
 
 
     </Application.Resources>

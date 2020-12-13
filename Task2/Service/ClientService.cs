@@ -50,7 +50,7 @@ namespace Service
 
         public void UpdateClient(ClientModel model)
         {
-            if (ClientExists(model.Id))
+            if (ClientExists(model._id))
             {
                 clientRepository.UpdateClient(MapModelDetails(model));
             }
@@ -70,9 +70,9 @@ namespace Service
         {
             return new Client()
             {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
+                Id = model._id,
+                FirstName = model._firstName,
+                LastName = model._lastName
             };
         }
 
@@ -80,9 +80,9 @@ namespace Service
         {
             return new ClientModel()
             {
-                Id = client.Id,
-                FirstName = client.FirstName,
-                LastName = client.LastName
+                _id = client.Id,
+                _firstName = client.FirstName,
+                _lastName = client.LastName
             };
         }
     }

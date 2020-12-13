@@ -25,17 +25,15 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="4" 
-                   Text="{Binding FistName}" HorizontalAlignment="Center" FontWeight="Bold"/>
-
+                   Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold"/>
 
         <Label Grid.Column="0" Grid.Row="1" Margin="4" Content="First Name:"/>
         <TextBox Grid.Column="1" Grid.Row="1" Margin="4" HorizontalAlignment="Left" Width="200"
-                 Text="{Binding FistName, UpdateSourceTrigger=PropertyChanged}"/>
-
+                 Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Column="0" Grid.Row="2" Margin="4" Content="Last Name:" HorizontalAlignment="Right"/>
         <TextBox Grid.Column="1" Grid.Row="2" Margin="4" HorizontalAlignment="Left"  Width="200"
-                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Column="1" Grid.Row="3" Width="100" Height="30" Margin="299.667,31.444,318.556,293.667"
                 Command="{Binding AddCommand}"> Add Client </Button>
