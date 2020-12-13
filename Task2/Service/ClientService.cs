@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using Data;
 
 namespace Service
@@ -11,29 +9,35 @@ namespace Service
         ClientRepository clientRepository = new ClientRepository();
         PurchaseEventRepository eventRepository = new PurchaseEventRepository();
 
-        public List<Client> GetAllClients()
+        public List<ClientModel> GetAllClients()
         {
-            return clientRepository.GetAllClients();
+            List<ClientModel> models = new List<ClientModel>();
+
+            foreach (var client in clientRepository.GetAllClients())
+            {
+                models.Add(MapClientDetails(client));
+            }
+            return models;
         }
 
-        public Client GetClientById(int id)
+        public ClientModel GetClientById(int id)
         {
-            return clientRepository.GetClientById(id);
+            return MapClientDetails(clientRepository.GetClientById(id));
         }
 
-        public Client GetClientByCredentials(string name, string surname)
+        public ClientModel GetClientByCredentials(string name, string surname)
         {
-            return clientRepository.GetClientByCredentials(name, surname);
+            return MapClientDetails(clientRepository.GetClientByCredentials(name, surname));
         }
 
-        public Client GetLastlyAddedClient()
+        public ClientModel GetLastlyAddedClient()
         {
-            return clientRepository.GetLastClient();
+            return MapClientDetails(clientRepository.GetLastClient());
         }
 
-        public void AddClient(Client client)
+        public void AddClient(ClientModel model)
         {
-            clientRepository.AddClient(client);
+            clientRepository.AddClient(MapModelDetails(model));
         }
 
         public void DeleteClient(int id)
@@ -42,18 +46,13 @@ namespace Service
             {
                 clientRepository.DeleteClient(id);
             }
-            else
-            {
-                // sql doesn't allow to delete a client who is referenced
-                // as a foreign key in another table (events)
-            }
         }
 
-        public void UpdateClient(Client client)
+        public void UpdateClient(ClientModel model)
         {
-            if (ClientExists(client.Id))
+            if (ClientExists(model.Id))
             {
-                clientRepository.UpdateClient(client);
+                clientRepository.UpdateClient(MapModelDetails(model));
             }
         }
 
@@ -65,6 +64,26 @@ namespace Service
         private bool ClientExists(int id)
         {
             return clientRepository.GetClientById(id) != null;
+        }
+
+        private Client MapModelDetails(ClientModel model)
+        {
+            return new Client()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+        }
+
+        private ClientModel MapClientDetails(Client client)
+        {
+            return new ClientModel()
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName
+            };
         }
     }
 }
