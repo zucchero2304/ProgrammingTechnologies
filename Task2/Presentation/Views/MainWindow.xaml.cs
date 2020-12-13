@@ -11,8 +11,6 @@ namespace Presentation.Views
         public MainWindow()
         {
             InitializeComponent();
-            //only time we write something in "code behind" is data binding
-            DataContext = new ProductViewModel();
         }
     }
 }

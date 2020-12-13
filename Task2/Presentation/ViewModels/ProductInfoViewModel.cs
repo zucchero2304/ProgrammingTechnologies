@@ -9,7 +9,7 @@ namespace Presentation.ViewModels
 {
     internal class ProductInfoViewModel : INotifyPropertyChanged
     {
-        private String info;
+        private String info = "Hello";
 
         public String Info
         {
@@ -23,6 +23,7 @@ namespace Presentation.ViewModels
                 OnPropertyChanged("Info");
             }
         }
+
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

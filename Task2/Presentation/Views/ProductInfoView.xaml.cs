@@ -17,7 +17,7 @@ namespace Presentation.Views
     /// <summary>
     /// Interaction logic for ProductInfoView.xaml
     /// </summary>
-    public partial class ProductInfoView : Window
+    public partial class ProductInfoView : Window, IDialog
     {
         public ProductInfoView()
         {

@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ProductUpdateCommand.cs" />
+    <Compile Include="IDialog.cs" />
     <Compile Include="ViewModels\ProductInfoViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="Views\ProductInfoView.xaml.cs">

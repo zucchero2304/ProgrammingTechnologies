@@ -14,13 +14,12 @@ namespace Presentation.ViewModels
     internal class ProductViewModel
     {
         private Product product;
-        //the ProductViewModel is responsible for showing the childView. We store the childView state here.
-        private ProductInfoViewModel childViewModel;
+        private readonly IDialogService dialogService;
 
-        public ProductViewModel()
+        public ProductViewModel(IDialogService dialogService)
         {
+            this.dialogService = dialogService;
             product = new Product("Book"); //then get from db or smth
-            childViewModel = new ProductInfoViewModel();
             UpdateCommand = new ProductUpdateCommand(this); //passing instance of ViewModel
         }
 
@@ -38,11 +37,10 @@ namespace Presentation.ViewModels
         }
         public void SaveChanges()
         {
-            ProductInfoView view = new ProductInfoView();
-            view.DataContext = childViewModel;
 
-            childViewModel.Info = Product.Name + " was updated in the database.";
-            view.ShowDialog();
+            var viewModel = new ProductInfoViewModel();
+            viewModel.Info = "I'm coming from ProductViewModel";
+            bool? result = dialogService.ShowDialog(viewModel);
         }
     }
 }
