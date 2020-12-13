@@ -1,4 +1,4 @@
-﻿<Window x:Class="Presentation.MainWindow"
+﻿<Window x:Class="Presentation.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+        <Label>Product name:</Label>
+        <TextBox Text ="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="136"></TextBox>
+        <Button Command="{Binding UpdateCommand}">Update</Button>
+    </StackPanel>
 </Window>
