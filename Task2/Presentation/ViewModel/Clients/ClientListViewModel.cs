@@ -3,9 +3,11 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Model;
+using Presentation.ViewModel.Clients;
 using Service;
 
 namespace Presentation.ViewModel
@@ -21,11 +23,15 @@ namespace Presentation.ViewModel
         private ICommand deleteCommand;
         private ICommand fetchAllCommand;
 
+
+        private ViewModelBase selectedViewModel;
+
+        private ClientModel selectedClient;
+
         private ClientService service;
 
         private ObservableCollection<ClientModel> clients;
 
-        private ClientModel selectedClient;
 
         public ClientListViewModel()
         {
@@ -79,7 +85,18 @@ namespace Presentation.ViewModel
             set
             {
                 selectedClient = value;
+                ShowDetailsControl();
                 OnPropertyChanged("SelectedClient");
+            }
+        }
+
+        public ViewModelBase SelectedViewModel
+        {
+            get => selectedViewModel;
+            set
+            {
+                selectedViewModel = value;
+                OnPropertyChanged("SelectedViewModel");
             }
         }
 
@@ -89,10 +106,9 @@ namespace Presentation.ViewModel
             {
                 if (addCommand == null)
                 {
-                    addCommand = new RelayCommand(e => { AddClient(); },
+                    addCommand = new RelayCommand(e => { AddClient();},
                         c => NonEmptyInputs());
                 }
-
                 return addCommand;
             }
         }
@@ -106,7 +122,6 @@ namespace Presentation.ViewModel
                     deleteCommand = new RelayCommand(e => { DeleteClient(); },
                         c => ClientIsSelected());
                 }
-
                 return deleteCommand;
             }
         }
@@ -117,7 +132,8 @@ namespace Presentation.ViewModel
             {
                 if (updateCommand == null)
                 {
-                    updateCommand = new RelayCommand(e => { }, o => ClientIsSelected());
+                    updateCommand = new RelayCommand(e => { ShowEditControl(); },
+                        o => ClientIsSelected());
                 }
                 return updateCommand;
             }
@@ -131,7 +147,6 @@ namespace Presentation.ViewModel
                 {
                     fetchAllCommand = new RelayCommand(e => { FetchAll(); });
                 }
-
                 return fetchAllCommand;
             }
         }
@@ -178,6 +193,16 @@ namespace Presentation.ViewModel
         private bool NonEmptyInputs()
         {
             return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName);
+        }
+
+        private void ShowEditControl()
+        {
+            SelectedViewModel = new ClientEditViewModel(selectedClient._id);
+        }
+
+        private void ShowDetailsControl()
+        {
+            SelectedViewModel = new ClientDetailsViewModel(selectedClient._id);
         }
 
         /*public ICommand DisplayMessageCommand

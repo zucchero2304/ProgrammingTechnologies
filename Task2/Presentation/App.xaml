@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Presentation"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:v="clr-namespace:Presentation.View"
+             xmlns:clients="clr-namespace:Presentation.ViewModel.Clients"
              StartupUri="/View/MainView.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type  viewModel:ClientListViewModel}">
@@ -11,6 +12,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:ProductListViewModel}">
             <v:ProductListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type clients:ClientDetailsViewModel}">
+            <v:ClientDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type clients:ClientEditViewModel}">
+            <v:ClientEditView/>
         </DataTemplate>
     </Application.Resources>
 </Application>

@@ -72,11 +72,19 @@
     </ApplicationDefinition>
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\ViewModelBase.cs" />
-    <Compile Include="ViewModel\ClientListViewModel.cs" />
+    <Compile Include="ViewModel\Clients\ClientDetailsViewModel.cs" />
+    <Compile Include="ViewModel\Clients\ClientEditViewModel.cs" />
+    <Compile Include="ViewModel\Clients\ClientListViewModel.cs" />
     <Compile Include="Common\IWindow.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProductListViewModel.cs" />
-    <Compile Include="View\ClientListView.xaml.cs">
+    <Compile Include="View\Clients\ClientDetailsView.xaml.cs">
+      <DependentUpon>ClientDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Clients\ClientEditView.xaml.cs">
+      <DependentUpon>ClientEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Clients\ClientListView.xaml.cs">
       <DependentUpon>ClientListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
@@ -97,7 +105,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ClientListView.xaml">
+    <Page Include="View\Clients\ClientDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Clients\ClientEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Clients\ClientListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

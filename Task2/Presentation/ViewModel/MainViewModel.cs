@@ -38,14 +38,13 @@ namespace Presentation.ViewModel
                 {
                     switchViewCommand = new RelayCommand(view => { SwitchView(view.ToString());});
                 }
-
                 return switchViewCommand;
             }
         }
 
-        public void SwitchView(string viewName)
+        public void SwitchView(string view)
         {
-            switch (viewName)
+            switch (view)
             {
                 case "ClientListView":
                     ShowClientListView();
