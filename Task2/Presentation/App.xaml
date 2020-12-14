@@ -4,9 +4,13 @@
              xmlns:local="clr-namespace:Presentation"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:v="clr-namespace:Presentation.View"
-             StartupUri="MainWindow.xaml">
+             StartupUri="/View/MainView.xaml">
     <Application.Resources>
-
-        
+        <DataTemplate DataType="{x:Type  viewModel:ClientListViewModel}">
+            <v:ClientListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ProductListViewModel}">
+            <v:ProductListView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

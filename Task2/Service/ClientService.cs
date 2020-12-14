@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data;
+using Data.Repositories;
 
 namespace Service
 {
     public class ClientService
     {
         ClientRepository clientRepository = new ClientRepository();
-        PurchaseEventRepository eventRepository = new PurchaseEventRepository();
+        PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
+        ReturnEventRepository returnRepository = new ReturnEventRepository();
 
-        public IEnumerable<ClientModel> GetAllClients()
+        public List<ClientModel> GetAllClients()
         {
             List<ClientModel> models = new List<ClientModel>();
 
@@ -44,7 +46,7 @@ namespace Service
 
         public void DeleteClient(int id)
         {
-            if (ClientExists(id) && HasNoPurchases(id))
+            if (ClientExists(id) && HasNoEvents(id))
             {
                 clientRepository.DeleteClient(id);
             }
@@ -58,9 +60,10 @@ namespace Service
             }
         }
 
-        private bool HasNoPurchases(int id)
+        public bool HasNoEvents(int id)
         {
-            return eventRepository.GetPurchaseEventsByClientId(id).Count.Equals(0);
+            return purchaseRepository.GetPurchaseEventsByClientId(id).Count.Equals(0) 
+                   && returnRepository.GetReturnEventsByClientId(id).Count.Equals(0);
         }
 
         private bool ClientExists(int id)

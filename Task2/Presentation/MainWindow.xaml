@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Presentation.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
 
     <Window.DataContext>
-        <vm:ClientViewModel/>
+        <vm:ClientListViewModel/>
     </Window.DataContext>
 
-    <Grid>
+    <Grid Margin="10,10,5.556,-0.111">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" MinWidth="200"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="487*"/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -23,32 +25,43 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="4" 
-                   Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Margin="4" Content="First Name:"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="4" HorizontalAlignment="Left" Width="200"
-                 Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Column="2" Grid.Row="0" Margin="385,4,589.222,4" 
+                   Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold" Width="0"/>
+
+        <Label Grid.Column="0" Grid.Row="1" Margin="4,4,4,3.778" Content="First Name:"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="4,4,0,3.778" HorizontalAlignment="Left" Width="200"
+                 Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
         <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,4,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="4" HorizontalAlignment="Left"  Width="200"
-                 Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="4,4.222,0,3.556" HorizontalAlignment="Left"  Width="200"
+                 Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
-        <Button Grid.Column="1" Grid.Row="3" Width="100" Height="30" Margin="70,20.444,425.556,430.889"
+        <Button Grid.Column="2" Grid.Row="3" Margin="25.778,10.444,776.444,626.111"
                 Command="{Binding AddCommand}">Add Client</Button>
 
-
-        <ListView Margin="4,155.444,-0.444,9.889" ItemsSource="{Binding Clients}" Grid.Row="3" Grid.ColumnSpan="2">
+        <ListView 
+                  ItemsSource="{Binding Clients, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  SelectedItem="{Binding SelectedClient}" Margin="258.222,0,56,459.111" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3">
+            <ListView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="-0.111"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.5"/>
+                </TransformGroup>
+            </ListView.RenderTransform>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding _firstName}" />
-                    <GridViewColumn Header="Surname" Width="50" DisplayMemberBinding="{Binding _lastName}" />
+                    <GridViewColumn Header="Id" Width="160" DisplayMemberBinding="{Binding _id}" />
+                    <GridViewColumn Header="Name" Width="160" DisplayMemberBinding="{Binding _firstName}" />
+                    <GridViewColumn Header="Surname" Width="160" DisplayMemberBinding="{Binding _lastName}" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Label Content="{Binding Clients.Count}" Grid.ColumnSpan="2" Margin="10,112.444,-0.444,198.889" Grid.Row="3" />
-    </Grid>
+        <Label Content="{Binding SelectedClient._firstName}" Margin="320,113.444,51.222,310.111" Grid.Row="3" Grid.Column="2"/>
 
+    </Grid>
 
 </Window>

@@ -76,7 +76,7 @@ namespace Service
             return repository.GetCategoryByName(category);
         }
         
-        private bool HasNoPurchases(int id)
+        public bool HasNoPurchases(int id)
         {
             return eventRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
         }
