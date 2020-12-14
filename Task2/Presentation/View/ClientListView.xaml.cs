@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Presentation.ViewModel;
 
 namespace Presentation.View
 {
@@ -23,6 +24,11 @@ namespace Presentation.View
         public ClientListView()
         {
             InitializeComponent();
+
+            ClientListViewModel _vm = (ClientListViewModel)DataContext;
+
+            _vm.MessageBoxShowDelegate = text => MessageBox.Show(
+                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information); 
         }
     }
 }

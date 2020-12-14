@@ -10,9 +10,9 @@ using Service;
 
 namespace Presentation.ViewModel
 {
-    public class ClientListViewModel: ViewModelBase
+    public class ClientListViewModel : ViewModelBase
     {
-        private int id;
+        private int id; 
         private string firstName;
         private string lastName;
 
@@ -25,7 +25,7 @@ namespace Presentation.ViewModel
 
         private ObservableCollection<ClientModel> clients;
 
-        private ClientModel _selectedClient;
+        private ClientModel selectedClient;
 
         public ClientListViewModel()
         {
@@ -75,10 +75,10 @@ namespace Presentation.ViewModel
 
         public ClientModel SelectedClient
         {
-            get => _selectedClient;
+            get => selectedClient;
             set
             {
-                _selectedClient = value;
+                selectedClient = value;
                 OnPropertyChanged("SelectedClient");
             }
         }
@@ -89,22 +89,11 @@ namespace Presentation.ViewModel
             {
                 if (addCommand == null)
                 {
-                    addCommand = new RelayCommand(e => { AddClient();},
-                        o => NonEmptyInputs());
+                    addCommand = new RelayCommand(e => { AddClient(); },
+                        c => NonEmptyInputs());
                 }
-                return addCommand;
-            }
-        }
 
-        public ICommand FetchAllCommand
-        {
-            get
-            {
-                if (fetchAllCommand == null)
-                {
-                    fetchAllCommand = new RelayCommand(e => { FetchAll();});
-                }
-                return fetchAllCommand;
+                return addCommand;
             }
         }
 
@@ -114,10 +103,36 @@ namespace Presentation.ViewModel
             {
                 if (deleteCommand == null)
                 {
-                    deleteCommand = new RelayCommand(e => {DeleteClient();},
-                        o => ClientHasNoEvents() && ClientIsSelected());
+                    deleteCommand = new RelayCommand(e => { DeleteClient(); },
+                        c => ClientIsSelected());
                 }
+
                 return deleteCommand;
+            }
+        }
+
+        public ICommand UpdateCommand
+        {
+            get
+            {
+                if (updateCommand == null)
+                {
+                    updateCommand = new RelayCommand(e => { }, o => ClientIsSelected());
+                }
+                return updateCommand;
+            }
+        }
+
+        public ICommand FetchAllCommand
+        {
+            get
+            {
+                if (fetchAllCommand == null)
+                {
+                    fetchAllCommand = new RelayCommand(e => { FetchAll(); });
+                }
+
+                return fetchAllCommand;
             }
         }
 
@@ -129,8 +144,8 @@ namespace Presentation.ViewModel
                 _firstName = FirstName,
                 _lastName = LastName
             };
-            
-            service.AddClient(newClient); 
+
+            service.AddClient(newClient);
         }
 
         private void FetchAll()
@@ -140,7 +155,14 @@ namespace Presentation.ViewModel
 
         private void DeleteClient()
         {
-            service.DeleteClient(SelectedClient._id);
+            if (ClientHasNoEvents())
+            {
+                service.DeleteClient(SelectedClient._id);
+            }
+            else
+            {
+                ShowPopupWindow("Cannot delete a client, he has some events registered in the system");
+            }
         }
 
         private bool ClientHasNoEvents()
@@ -150,14 +172,13 @@ namespace Presentation.ViewModel
 
         private bool ClientIsSelected()
         {
-            return !SelectedClient.Equals(null);
+            return !(SelectedClient is null);
         }
 
         private bool NonEmptyInputs()
         {
             return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName);
         }
-
 
         /*public ICommand DisplayMessageCommand
         {
@@ -175,22 +196,13 @@ namespace Presentation.ViewModel
             }
         }*/
 
-        //public Lazy<IWindow> ChildWindow { get; set; }
+        public Action<string> MessageBoxShowDelegate { get; set; }
+            = x => throw new ArgumentOutOfRangeException(
+                $"The delegate {nameof(MessageBoxShowDelegate)} must be assigned by the view layer");
 
-        //public Action<string> MessageBoxShowDelegate { get; set; }
-        //    = x => throw new ArgumentOutOfRangeException($"The delegate {nameof(MessageBoxShowDelegate)} must be assigned by the view layer");
-
-
-        /*private void ShowPopupWindow()
+        private void ShowPopupWindow(string message)
         {
-            MessageBoxShowDelegate("Window");
+            MessageBoxShowDelegate(message);
         }
-        
-           private void ShowTreeViewMainWindow()
-        {
-            IWindow _child = ChildWindow.Value;
-            _child.Show();
-        }
-        */
     }
 }

@@ -12,11 +12,13 @@
         <viewModel:ClientListViewModel/>
     </UserControl.DataContext>
 
-    <Grid Margin="10,10,5.556,-0.111">
+    <Grid Margin="20,20,20,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
-            <ColumnDefinition Width="26*"/>
-            <ColumnDefinition Width="97*"/>
+            <ColumnDefinition Width="Auto" MinWidth="200"/>
+            <ColumnDefinition Width="180" MinWidth="200.444"/>
+            <ColumnDefinition Width="180" MinWidth="59.111"/>
+            <ColumnDefinition Width="180" MinWidth="59.111"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -27,35 +29,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-
-        <TextBlock Grid.Column="2" Grid.Row="0" Margin="286,4,490.444,4" 
+        <TextBlock Grid.Column="2" Grid.Row="0" Margin="288,4,492.444,4" 
                    Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold" Width="0"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Margin="4,4,4,3.778" Content="First Name:"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="4,4,0,3.778" HorizontalAlignment="Left" Width="200"
+        <Label Grid.Column="0" Grid.Row="1" Margin="4,4,5.778,3.778" Content="First Name:"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="2.222,4,0,3.778" HorizontalAlignment="Left" Width="200"
                  Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,4,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="4,4.222,0,3.556" HorizontalAlignment="Left"  Width="200"
+        <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,5.778,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="2.222,4.222,0,3.556" HorizontalAlignment="Left"  Width="200"
                  Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Column="1" Grid.Row="3"
-                Command="{Binding AddCommand}" RenderTransformOrigin="0.5,0.5">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="-0.429"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-0.232"/>
-                </TransformGroup>
-            </Button.RenderTransform> Add Client
+                Command="{Binding AddCommand}" RenderTransformOrigin="0.5,0.5" Margin="1.556,0.444,0.889,49.444">
+            Add Client
         </Button>
 
         <ListView 
-                  ItemsSource="{Binding Clients, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  ItemsSource="{Binding Clients, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                   SelectedItem="{Binding SelectedClient}" 
                   HorizontalAlignment="Center"
-                  Margin="56,23.889,539.444,280.222" RenderTransformOrigin="0.5,0.5" Grid.Row="4" Grid.ColumnSpan="3" Width="589">
+                  RenderTransformOrigin="0.5,0.5" Grid.Row="4" Grid.ColumnSpan="4" Width="604" Margin="99,0.111,83.222,219">
 
             <ListView.View>
                 <GridView>
@@ -66,5 +60,15 @@
             </ListView.View>
         </ListView>
 
+        <Button Grid.Column="2" Grid.Row="3"
+                Command="{Binding DeleteCommand}" 
+                RenderTransformOrigin="0.5,0.5" Margin="10.111,0.444,180.222,49.333" Grid.ColumnSpan="2">
+            Delete selected
+        </Button>
+        <Button Grid.Column="3" Grid.Row="3"
+                Command="{Binding UpdateCommand}" 
+                RenderTransformOrigin="0.5,0.5" Margin="10.111,0.444,180.222,49.333" Grid.ColumnSpan="2">
+           Update selected
+        </Button>
     </Grid>
 </UserControl>

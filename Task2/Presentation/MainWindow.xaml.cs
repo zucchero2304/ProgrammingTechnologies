@@ -29,9 +29,6 @@ namespace Presentation
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            ClientListViewModel _vm = (ClientListViewModel) DataContext;
-            /*_vm.MessageBoxShowDelegate = text => MessageBox.Show(
-                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information); */
         }
     }
 }
