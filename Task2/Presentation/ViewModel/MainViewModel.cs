@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Model;
+using Presentation.ViewModel;
 
 namespace Presentation.ViewModel
 {

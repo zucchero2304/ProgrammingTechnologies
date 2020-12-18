@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation.View
+namespace Presentation.View.Products
 {
     /// <summary>
-    /// Interaction logic for ClientEditView.xaml
+    /// Interaction logic for ProductListView.xaml
     /// </summary>
-    public partial class ClientEditView : UserControl
+    public partial class ProductListView : UserControl
     {
-        public ClientEditView()
+        public ProductListView()
         {
             InitializeComponent();
         }

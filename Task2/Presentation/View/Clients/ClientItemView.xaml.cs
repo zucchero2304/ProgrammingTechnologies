@@ -12,15 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 namespace Presentation.View
 {
     /// <summary>
-    /// Interaction logic for ClientDetailsView.xaml
+    /// Interaction logic for ClientItemView.xaml
     /// </summary>
-    public partial class ClientDetailsView : UserControl
+    public partial class ClientItemView : UserControl
     {
-        public ClientDetailsView()
+        public ClientItemView()
         {
             InitializeComponent();
         }

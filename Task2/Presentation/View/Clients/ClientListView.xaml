@@ -5,12 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.View"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
+             xmlns:common="clr-namespace:Presentation.Common"
+             xmlns:vm="clr-namespace:Presentation.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200" Background="White">
 
     <UserControl.DataContext>
-        <viewModel:ClientListViewModel/>
+        <vm:ClientListViewModel/>
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <common:VisibilityConverter x:Key="VisibilityConverter"/>
+    </UserControl.Resources>
 
     <Grid Margin="20,20,20,20">
         <Grid.ColumnDefinitions>
@@ -18,7 +24,6 @@
             <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="180" MinWidth="200.444"/>
             <ColumnDefinition Width="Auto" MinWidth="134.667"/>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -26,7 +31,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition  Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Column="2" Grid.Row="0" Margin="60.778,4,261.889,4" 
@@ -46,16 +51,17 @@
         </Button>
 
         <ListView 
-                  ItemsSource="{Binding Clients, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                  SelectedItem="{Binding SelectedClient}" 
+                  ItemsSource="{Binding ClientViewModels, 
+                    Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  SelectedItem="{Binding SelectedViewModel}" 
                   HorizontalAlignment="Center"
                   RenderTransformOrigin="0.5,0.5" Grid.Row="4" Grid.ColumnSpan="3" Width="604" Margin="100,10.111,26.222,205">
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" Width="160" DisplayMemberBinding="{Binding _id}" />
-                    <GridViewColumn Header="Name" Width="160" DisplayMemberBinding="{Binding _firstName}" />
-                    <GridViewColumn Header="Surname" Width="160" DisplayMemberBinding="{Binding _lastName}" />
+                    <GridViewColumn Header="Id" Width="160" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Name" Width="160" DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="Surname" Width="160" DisplayMemberBinding="{Binding LastName}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -65,17 +71,65 @@
                 RenderTransformOrigin="0.5,0.5" Margin="8.778,0.444,112.889,52.444">
             Delete selected
         </Button>
-        <Button Grid.Column="3" Grid.Row="3"
-                Command="{Binding UpdateCommand}" 
-                RenderTransformOrigin="0.5,0.5" Margin="7.111,0.444,30,52.444">
-            Update selected
-        </Button>
 
-        <Label Grid.Column="4" Grid.Row="4" Content="{Binding SelectedClient._firstName}"></Label>
 
-        <ContentControl Content="{Binding SelectedViewModel}" 
+        <local:ClientItemView 
+            Grid.Column="3" Grid.Row="4"
+            DataContext="{Binding SelectedViewModel}" Margin="0.444,0.333,-283.333,-0.444"/>
+
+
+
+        <!-- not important things -->
+
+        <!--<Label Grid.Column="3" Grid.Row="4" Content="{Binding IsClientSelected}"></Label>
+        <Label Grid.Column="3" Grid.Row="4" Visibility="{Binding IsClientSelected, 
+            Converter={StaticResource VisibilityConverter}}"
+               Content="I am hidden?" Margin="0.111,41.111,0,-41"></Label> -->
+
+        <!--<ContentControl Content="{Binding SelectedViewModel}" 
                         Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="323.333,0.111,-294.667,0">
-        </ContentControl>
+        </ContentControl> -->
+
+
+        <!--<Grid Grid.Row="4" Grid.Column="3" 
+              Visibility="{Binding IsClientSelected, Converter={StaticResource VisibilityConverter}}" 
+              Margin="0.444,0.111,-283.333,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Content="{Binding SelectedClient._firstName}"></Label>
+            <Label Grid.Column="0" Grid.Row="1" Content="{Binding SelectedClient._lastName}"></Label>
+            <Label Grid.Column="0" Grid.Row="2" Content="{Binding SelectedClient._id}"></Label>
+
+            <TextBox Text="{Binding SelectedClient._lastName}" 
+                     Grid.Column="1" Grid.Row="2" Margin="0.222,18.444,-141.778,80.556" RenderTransformOrigin="0.5,0.5">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
+            <TextBox Text="{Binding SelectedClient._firstName}"
+                     Grid.Column="1" Grid.Row="2" Margin="0.222,79.444,-141.778,25.556"/>
+
+            <Button Grid.Row="3" Grid.Column="1" Content="Update" Margin="0.222,0.444,-141.778,92.556"/> -->
+
+        <!--</Grid>-->
 
     </Grid>
 </UserControl>

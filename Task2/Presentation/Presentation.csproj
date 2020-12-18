@@ -72,17 +72,15 @@
     </ApplicationDefinition>
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\ViewModelBase.cs" />
-    <Compile Include="ViewModel\Clients\ClientDetailsViewModel.cs" />
-    <Compile Include="ViewModel\Clients\ClientEditViewModel.cs" />
+    <Compile Include="Common\VisibilityConverter.cs" />
+    <Compile Include="ViewModel\Clients\ClientItemViewModel.cs" />
     <Compile Include="ViewModel\Clients\ClientListViewModel.cs" />
     <Compile Include="Common\IWindow.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ProductListViewModel.cs" />
-    <Compile Include="View\Clients\ClientDetailsView.xaml.cs">
-      <DependentUpon>ClientDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Clients\ClientEditView.xaml.cs">
-      <DependentUpon>ClientEditView.xaml</DependentUpon>
+    <Compile Include="ViewModel\Products\ProductItemViewModel.cs" />
+    <Compile Include="ViewModel\Products\ProductListViewModel.cs" />
+    <Compile Include="View\Clients\ClientItemView.xaml.cs">
+      <DependentUpon>ClientItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Clients\ClientListView.xaml.cs">
       <DependentUpon>ClientListView.xaml</DependentUpon>
@@ -90,7 +88,10 @@
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProductListView.xaml.cs">
+    <Compile Include="View\Products\ProductItemView.xaml.cs">
+      <DependentUpon>ProductItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Products\ProductListView.xaml.cs">
       <DependentUpon>ProductListView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -105,11 +106,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Clients\ClientDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Clients\ClientEditView.xaml">
+    <Page Include="View\Clients\ClientItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,7 +118,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ProductListView.xaml">
+    <Page Include="View\Products\ProductItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Products\ProductListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,6 +173,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="ViewModel\Events\" />
+    <Folder Include="View\Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

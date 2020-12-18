@@ -20,7 +20,6 @@ namespace Service
             {
                 models.Add(MapClientDetails(client));
             }
-
             return models;
         }
 

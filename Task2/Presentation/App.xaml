@@ -3,21 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Presentation"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
-             xmlns:v="clr-namespace:Presentation.View"
-             xmlns:clients="clr-namespace:Presentation.ViewModel.Clients"
+             xmlns:view="clr-namespace:Presentation.View"
+             xmlns:products="clr-namespace:Presentation.View.Products"
              StartupUri="/View/MainView.xaml">
     <Application.Resources>
+
         <DataTemplate DataType="{x:Type  viewModel:ClientListViewModel}">
-            <v:ClientListView/>
+            <view:ClientListView/>
         </DataTemplate>
+
         <DataTemplate DataType="{x:Type viewModel:ProductListViewModel}">
-            <v:ProductListView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type clients:ClientDetailsViewModel}">
-            <v:ClientDetailsView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type clients:ClientEditViewModel}">
-            <v:ClientEditView/>
+            <products:ProductListView/>
+
         </DataTemplate>
     </Application.Resources>
 </Application>

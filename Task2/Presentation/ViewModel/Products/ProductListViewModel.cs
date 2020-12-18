@@ -7,7 +7,7 @@ using Presentation.Model;
 
 namespace Presentation.ViewModel
 {
-    class ProductListViewModel : ViewModelBase
+    public class ProductListViewModel : ViewModelBase
     {
     }
 }
