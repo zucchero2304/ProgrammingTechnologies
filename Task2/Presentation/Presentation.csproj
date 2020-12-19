@@ -52,6 +52,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -71,8 +72,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\Utils\ErrorValidator.cs" />
     <Compile Include="Common\ViewModelBase.cs" />
-    <Compile Include="Common\VisibilityConverter.cs" />
+    <Compile Include="Common\Utils\VisibilityConverter.cs" />
     <Compile Include="ViewModel\Clients\ClientItemViewModel.cs" />
     <Compile Include="ViewModel\Clients\ClientListViewModel.cs" />
     <Compile Include="Common\IWindow.cs" />
@@ -172,9 +174,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="ViewModel\Events\" />
-    <Folder Include="View\Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

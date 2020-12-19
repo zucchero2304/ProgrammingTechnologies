@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Presentation.Command;
+using Presentation.Common;
 using Presentation.Model;
-using Presentation.ViewModel;
 using Service;
 
 namespace Presentation.ViewModel
 {
-    public class ClientListViewModel : ViewModelBase
+    public class ClientListViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         #region InitialSetup
         public ClientListViewModel()
@@ -28,19 +26,17 @@ namespace Presentation.ViewModel
 
             clientViewModels = new ObservableCollection<ClientItemViewModel>();
 
-            foreach (var c in service.GetAllClients())
-            {
-                clientViewModels.Add(new ClientItemViewModel(c));
-            }
+            IsClientViewModelSelected = false;
+
+            FetchClients();
         }
 
         private void configureCommands()
         {
-            addCommand = new RelayCommand(e => { AddClient(); },
-                c => NonEmptyInputs());
+            addCommand = new RelayCommand(e => { AddClient(); }, condition => CanAdd );
 
             deleteCommand = new RelayCommand(e => { DeleteClient(); },
-                c => ClientViewModelIsSelected());
+                condition => ClientViewModelIsSelected());
         }
 
         #endregion
@@ -54,7 +50,10 @@ namespace Presentation.ViewModel
             set
             {
                 newClientFirstName = value;
-                OnPropertyChanged("FirstName");
+
+                ValidateInput(newClientFirstName, nameof(FirstName));  
+
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
@@ -64,7 +63,10 @@ namespace Presentation.ViewModel
             set
             {
                 newClientLastName = value;
-                OnPropertyChanged("LastName");
+
+                ValidateInput(newClientLastName, nameof(LastName));
+
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -75,7 +77,7 @@ namespace Presentation.ViewModel
             set
             {
                 clientViewModels = value;
-                OnPropertyChanged("ClientViewModels");
+                OnPropertyChanged(nameof(ClientViewModels));
             }
         }
 
@@ -85,9 +87,22 @@ namespace Presentation.ViewModel
             set
             {
                 selectedViewModel = value;
-                OnPropertyChanged("SelectedViewModel");
+                IsClientViewModelSelected = true;
+                OnPropertyChanged(nameof(SelectedViewModel));
+
             }
         }
+
+        public bool IsClientViewModelSelected
+        {
+            get => isClientViewModelSelected;
+            set
+            {
+                isClientViewModelSelected = value;
+                OnPropertyChanged(nameof(IsClientViewModelSelected));
+            }
+        }
+
         public ICommand AddCommand
         {
             get => addCommand;
@@ -97,6 +112,8 @@ namespace Presentation.ViewModel
         {
             get => deleteCommand;
         }
+
+        public bool CanAdd => !HasErrors;
 
         public Action<string> MessageBoxShowDelegate { get; set; }
             = x => throw new ArgumentOutOfRangeException(
@@ -117,6 +134,8 @@ namespace Presentation.ViewModel
         private ClientItemViewModel selectedViewModel;
         private ObservableCollection<ClientItemViewModel> clientViewModels;
 
+        private bool isClientViewModelSelected;
+
         #endregion
 
 
@@ -132,6 +151,8 @@ namespace Presentation.ViewModel
             };
 
             service.AddClient(newClient);
+            FetchClients();
+
         }
 
         private void DeleteClient()
@@ -142,7 +163,7 @@ namespace Presentation.ViewModel
             }
             else
             {
-                ShowPopupWindow("Cannot delete a client, since he has events registered in the system");
+                ShowPopupWindow("Can't delete a client, since he has registered events");
             }
         }
 
@@ -150,14 +171,10 @@ namespace Presentation.ViewModel
         {
             return service.HasNoEvents(SelectedViewModel.Id);
         }
+
         private bool ClientViewModelIsSelected()
         {
             return !(selectedViewModel is null);
-        }
-
-        private bool NonEmptyInputs()
-        {
-            return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName);
         }
 
         private void ShowPopupWindow(string message)
@@ -165,67 +182,58 @@ namespace Presentation.ViewModel
             MessageBoxShowDelegate(message);
         }
 
+        private void FetchClients()
+        {
+            clientViewModels.Clear();
+
+            Task.Run(() =>
+            {
+                foreach (var c in service.GetAllClients())
+                {
+                    clientViewModels.Add(new ClientItemViewModel(c));
+                }
+            });
+
+            OnPropertyChanged("ClientViewModels");
+        }
+
+
+        private void ValidateInput(string field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 20)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
+            }
+        }
 
         #endregion
-        
 
 
+        #region Validation
 
-        /* not used now 
+        private ErrorValidator errorValidator = new ErrorValidator();
 
-         private ClientModel selectedClient;
-         private ObservableCollection<ClientModel> clients;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-         private bool isClientSelected;
-         private ICommand fetchAllCommand;
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanAdd));
+        }
 
-         public ObservableCollection<ClientModel> Clients
-         {
-             get => clients;
-             set
-             {
-                 clients = value;
-                 OnPropertyChanged("Clients");
-             }
-         }
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errorValidator.GetErrors(propertyName);
+        }
 
-         public ClientModel SelectedClient
-         {
-             get => selectedClient;
-             set
-             {
-                 selectedClient = value;
-                 IsClientSelected = true;
-                 OnPropertyChanged("SelectedClient");
-             }
-         }
+        public bool HasErrors => errorValidator.HasErrors;
 
-         public ICommand FetchAllCommand
-         {
-             get
-             {
-                 if (fetchAllCommand == null)
-                 {
-                     fetchAllCommand = new RelayCommand(e => { FetchAll(); });
-                 }
-                 return fetchAllCommand;
-             }
-         }
-
-         public bool IsClientSelected
-         {
-             get => isClientSelected;
-             set
-             {
-                 isClientSelected = value;
-                 OnPropertyChanged("IsClientSelected");
-             }
-         }
-         private void FetchAll()
-         {
-             clients = new ObservableCollection<ClientModel>(service.GetAllClients());
-         }
-
-         */
+        #endregion
     }
 }

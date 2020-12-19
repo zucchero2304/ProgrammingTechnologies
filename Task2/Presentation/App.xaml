@@ -11,10 +11,21 @@
         <DataTemplate DataType="{x:Type  viewModel:ClientListViewModel}">
             <view:ClientListView/>
         </DataTemplate>
-
         <DataTemplate DataType="{x:Type viewModel:ProductListViewModel}">
             <products:ProductListView/>
-
         </DataTemplate>
+
+        <ControlTemplate x:Key="ErrorTemplate">
+            <Border BorderBrush="DarkCyan" BorderThickness="2">
+                <Grid>
+                    <AdornedElementPlaceholder/>
+                    <TextBlock Text="{Binding  [0].ErrorContent}" Foreground="DarkCyan" 
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right">
+
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

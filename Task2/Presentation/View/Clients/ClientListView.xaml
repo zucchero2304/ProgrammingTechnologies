@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.View"
-             xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:common="clr-namespace:Presentation.Common"
              xmlns:vm="clr-namespace:Presentation.ViewModel"
              mc:Ignorable="d" 
@@ -19,43 +18,80 @@
     </UserControl.Resources>
 
     <Grid Margin="20,20,20,20">
-        <Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Padding" Value="2 1" />
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <StackPanel>
+                                <Border Padding="{TemplateBinding Padding}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="3">
+                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                </Border>
+                                <ItemsControl ItemsSource="{TemplateBinding Validation.Errors}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Foreground="Red"
+                                                       Text="{Binding ErrorContent}">
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+<Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
-            <ColumnDefinition Width="180" MinWidth="200.444"/>
+            <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="Auto" MinWidth="134.667"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition  Height="Auto"/>
+            <RowDefinition Height="Auto" MaxHeight="50"/>
+            <RowDefinition Height="Auto" MaxHeight="50"/>
+            <RowDefinition Height="Auto" MaxHeight="50"/>
+            <RowDefinition Height="Auto" MaxHeight="50"/>
+            <RowDefinition  Height="Auto" MaxHeight="500"/>
         </Grid.RowDefinitions>
-
-        <TextBlock Grid.Column="2" Grid.Row="0" Margin="60.778,4,261.889,4" 
-                   Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold" Width="0"/>
 
         <Label Grid.Column="0" Grid.Row="1" Margin="4,4,9.778,3.778" Content="First Name:"/>
         <TextBox Grid.Row="1" Margin="204,4,0,3.778" HorizontalAlignment="Left" Width="200"
-                 Text="{Binding FirstName , UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+                 Text=
+                 "{Binding FirstName, 
+            ValidatesOnDataErrors=True,
+            UpdateSourceTrigger=PropertyChanged}"
+                 Grid.ColumnSpan="2"/>
 
         <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,9.778,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
         <TextBox Grid.Row="2" Margin="204,4.222,0,3.556" HorizontalAlignment="Left"  Width="200"
-                 Text="{Binding LastName , UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+                 Text="{Binding LastName,
+            ValidatesOnDataErrors=True, 
+            UpdateSourceTrigger=PropertyChanged}"
+                 Grid.ColumnSpan="2"/>
 
         <Button Grid.Row="3"
-                Command="{Binding AddCommand}" RenderTransformOrigin="0.5,0.5" Margin="204,0.444,2.222,53.444" Grid.ColumnSpan="2">
-            Add Client
+                Content="Add Client"
+                Command="{Binding AddCommand}"
+                RenderTransformOrigin="0.5,0.5" Margin="204,0.111,2.667,10.111" Grid.ColumnSpan="2">
         </Button>
 
         <ListView 
-                  ItemsSource="{Binding ClientViewModels, 
+            ItemsSource="{Binding ClientViewModels, 
                     Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                   SelectedItem="{Binding SelectedViewModel}" 
                   HorizontalAlignment="Center"
-                  RenderTransformOrigin="0.5,0.5" Grid.Row="4" Grid.ColumnSpan="3" Width="604" Margin="100,10.111,26.222,205">
+                  Height="500"
+                  RenderTransformOrigin="0.5,0.5" Grid.Row="4" Grid.ColumnSpan="3" Width="563" Margin="105,9.889,69.778,-59.778">
 
             <ListView.View>
                 <GridView>
@@ -68,68 +104,15 @@
 
         <Button Grid.Column="2" Grid.Row="3"
                 Command="{Binding DeleteCommand}" 
-                RenderTransformOrigin="0.5,0.5" Margin="8.778,0.444,112.889,52.444">
-            Delete
+                RenderTransformOrigin="0.5,0.5" Margin="8.333,0.111,94.556,10.333">
+            Delete selected
         </Button>
 
-
-        <local:ClientItemView 
-            Grid.Column="3" Grid.Row="4"
-            DataContext="{Binding SelectedViewModel}" Margin="0.444,0.333,-283.333,-0.444"/>
-
-
-
-        <!-- not important things -->
-
-        <!--<Label Grid.Column="3" Grid.Row="4" Content="{Binding IsClientSelected}"></Label>
-        <Label Grid.Column="3" Grid.Row="4" Visibility="{Binding IsClientSelected, 
-            Converter={StaticResource VisibilityConverter}}"
-               Content="I am hidden?" Margin="0.111,41.111,0,-41"></Label> -->
-
-        <!--<ContentControl Content="{Binding SelectedViewModel}" 
-                        Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="323.333,0.111,-294.667,0">
-        </ContentControl> -->
-
-
-        <!--<Grid Grid.Row="4" Grid.Column="3" 
-              Visibility="{Binding IsClientSelected, Converter={StaticResource VisibilityConverter}}" 
-              Margin="0.444,0.111,-283.333,0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Label Grid.Column="0" Grid.Row="0" Content="{Binding SelectedClient._firstName}"></Label>
-            <Label Grid.Column="0" Grid.Row="1" Content="{Binding SelectedClient._lastName}"></Label>
-            <Label Grid.Column="0" Grid.Row="2" Content="{Binding SelectedClient._id}"></Label>
-
-            <TextBox Text="{Binding SelectedClient._lastName}" 
-                     Grid.Column="1" Grid.Row="2" Margin="0.222,18.444,-141.778,80.556" RenderTransformOrigin="0.5,0.5">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
-            <TextBox Text="{Binding SelectedClient._firstName}"
-                     Grid.Column="1" Grid.Row="2" Margin="0.222,79.444,-141.778,25.556"/>
-
-            <Button Grid.Row="3" Grid.Column="1" Content="Update" Margin="0.222,0.444,-141.778,92.556"/> -->
-
-        <!--</Grid>-->
-
+        <Grid Grid.Column="3" Grid.Row="4" 
+              Visibility="{Binding IsClientViewModelSelected, 
+            Converter={StaticResource VisibilityConverter}}">
+            <local:ClientItemView DataContext="{Binding SelectedViewModel}"
+                                  Margin="0.444,0.333,-283.333,-0.444"/>
+        </Grid>
     </Grid>
 </UserControl>

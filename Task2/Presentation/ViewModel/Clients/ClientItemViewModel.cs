@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
+using System.ComponentModel;
 using System.Windows.Input;
 using Presentation.Command;
+using Presentation.Common;
 using Presentation.Model;
 using Service;
 
 namespace Presentation.ViewModel
 {
-    public class ClientItemViewModel : ViewModelBase
+    public class ClientItemViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         #region InitialSetup
 
         public ClientItemViewModel() { }
 
-        public ClientItemViewModel(ClientModel client)
+
+        public ClientItemViewModel(ClientModel clientModel)
         {
-            Id = client._id;
-            FirstName = client._firstName;
-            LastName = client._lastName;
+
+            client = clientModel;
+            id = clientModel._id; 
+            firstName = clientModel._firstName;
+            lastName = clientModel._lastName;
 
             service = new ClientService();
 
@@ -36,6 +38,18 @@ namespace Presentation.ViewModel
 
 
         #region API
+
+        public ClientModel Client
+        {
+            get => client;
+
+            set
+            {
+                client = value;
+                OnPropertyChanged(nameof(Client));
+            }
+        }
+
         public int Id
         {
             get => id;
@@ -43,7 +57,7 @@ namespace Presentation.ViewModel
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                OnPropertyChanged(nameof(Id));
             }
         }
 
@@ -53,7 +67,10 @@ namespace Presentation.ViewModel
             set
             {
                 firstName = value;
-                OnPropertyChanged("FirstName");
+
+                ValidateInput(firstName, nameof(FirstName));
+
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
@@ -63,7 +80,10 @@ namespace Presentation.ViewModel
             set
             {
                 lastName = value;
-                OnPropertyChanged("LastName");
+
+                ValidateInput(lastName, nameof(LastName));
+
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -72,16 +92,22 @@ namespace Presentation.ViewModel
             get => updateCommand;
         }
 
+        public bool CanUpdate => !HasErrors;
+
         #endregion
 
 
         #region PrivateAttributes
+
+        private ClientModel client;
 
         private string firstName;
         private string lastName;
         private int id;
 
         private ClientService service;
+
+        private ErrorValidator errorValidator = new ErrorValidator();
 
         private ICommand updateCommand;
 
@@ -92,9 +118,49 @@ namespace Presentation.ViewModel
 
         private void UpdateClient()
         {
-            // not implemented yet
+            service.UpdateClient(
+                new ClientModel()
+                {
+                    _id = Id,
+                    _firstName = FirstName,
+                    _lastName = LastName
+                });
+        }
+
+        private void ValidateInput(string field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 20)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
+            }
         }
 
         #endregion
+
+
+        #region Validation
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanUpdate));
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errorValidator.GetErrors(propertyName);
+        }
+
+        public bool HasErrors => errorValidator.HasErrors;
     }
+
+    #endregion
 }
