@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ using Service;
 
 namespace Presentation.ViewModel
 {
-    public class ClientListViewModel : ViewModelBase
+    public class ClientListViewModel : ViewModelBase, IDataErrorInfo
     {
         #region InitialSetup
         public ClientListViewModel()
@@ -28,19 +29,18 @@ namespace Presentation.ViewModel
 
             clientViewModels = new ObservableCollection<ClientItemViewModel>();
 
-            foreach (var c in service.GetAllClients())
-            {
-                clientViewModels.Add(new ClientItemViewModel(c));
-            }
+            IsClientViewModelSelected = false; 
+
+            FetchClients();
         }
 
         private void configureCommands()
         {
             addCommand = new RelayCommand(e => { AddClient(); },
-                c => NonEmptyInputs());
+                condition => NonEmptyInputs());
 
             deleteCommand = new RelayCommand(e => { DeleteClient(); },
-                c => ClientViewModelIsSelected());
+                condition => ClientViewModelIsSelected());
         }
 
         #endregion
@@ -86,8 +86,22 @@ namespace Presentation.ViewModel
             {
                 selectedViewModel = value;
                 OnPropertyChanged("SelectedViewModel");
+
+                // to control user profile visibility
+                IsClientViewModelSelected = true;
             }
         }
+
+        public bool IsClientViewModelSelected
+        {
+            get => isClientViewModelSelected;
+            set
+            {
+                isClientViewModelSelected = value;
+                OnPropertyChanged("IsClientViewModelSelected");
+            }
+        }
+
         public ICommand AddCommand
         {
             get => addCommand;
@@ -117,6 +131,8 @@ namespace Presentation.ViewModel
         private ClientItemViewModel selectedViewModel;
         private ObservableCollection<ClientItemViewModel> clientViewModels;
 
+        private bool isClientViewModelSelected;
+
         #endregion
 
 
@@ -132,6 +148,8 @@ namespace Presentation.ViewModel
             };
 
             service.AddClient(newClient);
+            FetchClients();
+
         }
 
         private void DeleteClient()
@@ -157,7 +175,7 @@ namespace Presentation.ViewModel
 
         private bool NonEmptyInputs()
         {
-            return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName);
+            return !(string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName));
         }
 
         private void ShowPopupWindow(string message)
@@ -166,66 +184,78 @@ namespace Presentation.ViewModel
         }
 
 
+        private void FetchClients()
+        {
+            clientViewModels.Clear();
+
+            Task.Run(() =>
+            {
+                foreach (var c in service.GetAllClients())
+                {
+                    clientViewModels.Add(new ClientItemViewModel(c));
+                }
+            });
+            
+            OnPropertyChanged("ClientViewModels");
+        }
+
         #endregion
-        
 
 
 
-        /* not used now 
 
-         private ClientModel selectedClient;
-         private ObservableCollection<ClientModel> clients;
+        #region Validation
 
-         private bool isClientSelected;
-         private ICommand fetchAllCommand;
+        // needs to be placed to another place 
+        public Dictionary<string, string> ErrorCollection { get; private set; } = new Dictionary<string, string>();
+        public string this[string name]
+        {
+            get
+            {
+                string result = null;
 
-         public ObservableCollection<ClientModel> Clients
-         {
-             get => clients;
-             set
-             {
-                 clients = value;
-                 OnPropertyChanged("Clients");
-             }
-         }
+                switch (name)
+                {
+                    case "FirstName":
+                        if (string.IsNullOrWhiteSpace(FirstName))
+                        {
+                            result = "First Name cannot be empty!";
+                        }
+                        else if (FirstName.Length > 5)
+                        {
+                            result = "First Name Cannot be longer than 5 chars";
+                        }
+                        break;
 
-         public ClientModel SelectedClient
-         {
-             get => selectedClient;
-             set
-             {
-                 selectedClient = value;
-                 IsClientSelected = true;
-                 OnPropertyChanged("SelectedClient");
-             }
-         }
+                    case "LastName":
+                        if (string.IsNullOrWhiteSpace(LastName))
+                        {
+                            result = "Last Name cannot be empty!";
+                        }
+                        else if (FirstName.Length > 5)
+                        {
+                            result = "Last Name Cannot be longer than 5 chars";
+                        }
+                        break;
+                }
 
-         public ICommand FetchAllCommand
-         {
-             get
-             {
-                 if (fetchAllCommand == null)
-                 {
-                     fetchAllCommand = new RelayCommand(e => { FetchAll(); });
-                 }
-                 return fetchAllCommand;
-             }
-         }
+                if (ErrorCollection.ContainsKey(name))
+                {
+                    ErrorCollection[name] = result;
+                }
+                else if (result != null)
+                {
+                    ErrorCollection.Add(name, result);
+                }
 
-         public bool IsClientSelected
-         {
-             get => isClientSelected;
-             set
-             {
-                 isClientSelected = value;
-                 OnPropertyChanged("IsClientSelected");
-             }
-         }
-         private void FetchAll()
-         {
-             clients = new ObservableCollection<ClientModel>(service.GetAllClients());
-         }
+                OnPropertyChanged("ErrorCollection");
 
-         */
+                return result;
+            }
+        }
+
+        public string Error { get => null; }
+
+        #endregion
     }
 }
