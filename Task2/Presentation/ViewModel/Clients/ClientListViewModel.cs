@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,13 +9,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Presentation.Command;
+using Presentation.Common;
 using Presentation.Model;
 using Presentation.ViewModel;
 using Service;
 
 namespace Presentation.ViewModel
 {
-    public class ClientListViewModel : ViewModelBase, IDataErrorInfo
+    public class ClientListViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         #region InitialSetup
         public ClientListViewModel()
@@ -54,6 +56,9 @@ namespace Presentation.ViewModel
             set
             {
                 newClientFirstName = value;
+
+                ValidateInput(newClientFirstName, nameof(FirstName));  
+
                 OnPropertyChanged("FirstName");
             }
         }
@@ -64,6 +69,9 @@ namespace Presentation.ViewModel
             set
             {
                 newClientLastName = value;
+
+                ValidateInput(newClientLastName, nameof(LastName));
+
                 OnPropertyChanged("LastName");
             }
         }
@@ -86,8 +94,7 @@ namespace Presentation.ViewModel
             {
                 selectedViewModel = value;
                 OnPropertyChanged("SelectedViewModel");
-
-                // to control user profile visibility
+                
                 IsClientViewModelSelected = true;
             }
         }
@@ -168,6 +175,7 @@ namespace Presentation.ViewModel
         {
             return service.HasNoEvents(SelectedViewModel.Id);
         }
+
         private bool ClientViewModelIsSelected()
         {
             return !(selectedViewModel is null);
@@ -195,66 +203,44 @@ namespace Presentation.ViewModel
                     clientViewModels.Add(new ClientItemViewModel(c));
                 }
             });
-            
             OnPropertyChanged("ClientViewModels");
+        }
+
+
+        private void ValidateInput(string field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 10)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 10!");
+            }
         }
 
         #endregion
 
 
-
-
         #region Validation
 
-        // needs to be placed to another place 
-        public Dictionary<string, string> ErrorCollection { get; private set; } = new Dictionary<string, string>();
-        public string this[string name]
+        private ErrorValidator errorValidator = new ErrorValidator();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
-            get
-            {
-                string result = null;
-
-                switch (name)
-                {
-                    case "FirstName":
-                        if (string.IsNullOrWhiteSpace(FirstName))
-                        {
-                            result = "First Name cannot be empty!";
-                        }
-                        else if (FirstName.Length > 5)
-                        {
-                            result = "First Name Cannot be longer than 5 chars";
-                        }
-                        break;
-
-                    case "LastName":
-                        if (string.IsNullOrWhiteSpace(LastName))
-                        {
-                            result = "Last Name cannot be empty!";
-                        }
-                        else if (FirstName.Length > 5)
-                        {
-                            result = "Last Name Cannot be longer than 5 chars";
-                        }
-                        break;
-                }
-
-                if (ErrorCollection.ContainsKey(name))
-                {
-                    ErrorCollection[name] = result;
-                }
-                else if (result != null)
-                {
-                    ErrorCollection.Add(name, result);
-                }
-
-                OnPropertyChanged("ErrorCollection");
-
-                return result;
-            }
+            ErrorsChanged?.Invoke(this, e);
         }
 
-        public string Error { get => null; }
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errorValidator.GetErrors(propertyName);
+        }
+
+        public bool HasErrors => errorValidator.HasErrors;
 
         #endregion
     }

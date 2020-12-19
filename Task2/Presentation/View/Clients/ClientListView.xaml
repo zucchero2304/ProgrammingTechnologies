@@ -19,7 +19,38 @@
     </UserControl.Resources>
 
     <Grid Margin="20,20,20,20">
-        <Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Padding" Value="2 1" />
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <StackPanel>
+                                <Border Padding="{TemplateBinding Padding}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="3">
+                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                </Border>
+                                <ItemsControl ItemsSource="{TemplateBinding Validation.Errors}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Foreground="Red"
+                                                       Text="{Binding ErrorContent}">
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+<Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="Auto" MinWidth="200"/>
@@ -34,16 +65,12 @@
             <RowDefinition  Height="Auto" MaxHeight="500"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="2" Grid.Row="0" Margin="60.778,4,261.889,4" 
-                   Text="{Binding LastName}" HorizontalAlignment="Center" FontWeight="Bold" Width="0"/>
-
         <Label Grid.Column="0" Grid.Row="1" Margin="4,4,9.778,3.778" Content="First Name:"/>
         <TextBox Grid.Row="1" Margin="204,4,0,3.778" HorizontalAlignment="Left" Width="200"
                  Text=
                  "{Binding FirstName, 
             ValidatesOnDataErrors=True,
             UpdateSourceTrigger=PropertyChanged}"
-                 ToolTip="{Binding ErrorCollection[FirstName]}"
                  Grid.ColumnSpan="2"/>
 
         <Label Grid.Column="0" Grid.Row="2" Margin="0,4.222,9.778,3.556" Content="Last Name:" HorizontalAlignment="Right" Width="196"/>
@@ -51,7 +78,6 @@
                  Text="{Binding LastName,
             ValidatesOnDataErrors=True, 
             UpdateSourceTrigger=PropertyChanged}"
-                 ToolTip="{Binding ErrorCollection[LastName]}"
                  Grid.ColumnSpan="2"/>
 
         <Button Grid.Row="3"
