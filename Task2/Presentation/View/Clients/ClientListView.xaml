@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.View"
-             xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:common="clr-namespace:Presentation.Common"
              xmlns:vm="clr-namespace:Presentation.ViewModel"
              mc:Ignorable="d" 
@@ -81,8 +80,9 @@
                  Grid.ColumnSpan="2"/>
 
         <Button Grid.Row="3"
-                Command="{Binding AddCommand}" RenderTransformOrigin="0.5,0.5" Margin="204,0.111,2.667,10.111" Grid.ColumnSpan="2">
-            Add Client
+                Content="Add Client"
+                Command="{Binding AddCommand}"
+                RenderTransformOrigin="0.5,0.5" Margin="204,0.111,2.667,10.111" Grid.ColumnSpan="2">
         </Button>
 
         <ListView 
@@ -114,61 +114,5 @@
             <local:ClientItemView DataContext="{Binding SelectedViewModel}"
                                   Margin="0.444,0.333,-283.333,-0.444"/>
         </Grid>
-
-
-
-
-        <!-- not important things -->
-
-        <!--<Label Grid.Column="3" Grid.Row="4" Content="{Binding IsClientSelected}"></Label>
-        <Label Grid.Column="3" Grid.Row="4" Visibility="{Binding IsClientSelected, 
-            Converter={StaticResource VisibilityConverter}}"
-               Content="I am hidden?" Margin="0.111,41.111,0,-41"></Label> -->
-
-        <!--<ContentControl Content="{Binding SelectedViewModel}" 
-                        Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="323.333,0.111,-294.667,0">
-        </ContentControl> -->
-
-
-        <!--<Grid Grid.Row="4" Grid.Column="3" 
-              Visibility="{Binding IsClientSelected, Converter={StaticResource VisibilityConverter}}" 
-              Margin="0.444,0.111,-283.333,0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Label Grid.Column="0" Grid.Row="0" Content="{Binding SelectedClient._firstName}"></Label>
-            <Label Grid.Column="0" Grid.Row="1" Content="{Binding SelectedClient._lastName}"></Label>
-            <Label Grid.Column="0" Grid.Row="2" Content="{Binding SelectedClient._id}"></Label>
-
-            <TextBox Text="{Binding SelectedClient._lastName}" 
-                     Grid.Column="1" Grid.Row="2" Margin="0.222,18.444,-141.778,80.556" RenderTransformOrigin="0.5,0.5">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
-            <TextBox Text="{Binding SelectedClient._firstName}"
-                     Grid.Column="1" Grid.Row="2" Margin="0.222,79.444,-141.778,25.556"/>
-
-            <Button Grid.Row="3" Grid.Column="1" Content="Update" Margin="0.222,0.444,-141.778,92.556"/> -->
-
-        <!--</Grid>-->
-
     </Grid>
 </UserControl>

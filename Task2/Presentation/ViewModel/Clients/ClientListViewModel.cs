@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Common;
 using Presentation.Model;
-using Presentation.ViewModel;
 using Service;
 
 namespace Presentation.ViewModel
@@ -31,15 +26,14 @@ namespace Presentation.ViewModel
 
             clientViewModels = new ObservableCollection<ClientItemViewModel>();
 
-            IsClientViewModelSelected = false; 
+            IsClientViewModelSelected = false;
 
             FetchClients();
         }
 
         private void configureCommands()
         {
-            addCommand = new RelayCommand(e => { AddClient(); },
-                condition => NonEmptyInputs());
+            addCommand = new RelayCommand(e => { AddClient(); }, condition => CanAdd );
 
             deleteCommand = new RelayCommand(e => { DeleteClient(); },
                 condition => ClientViewModelIsSelected());
@@ -59,7 +53,7 @@ namespace Presentation.ViewModel
 
                 ValidateInput(newClientFirstName, nameof(FirstName));  
 
-                OnPropertyChanged("FirstName");
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
@@ -72,7 +66,7 @@ namespace Presentation.ViewModel
 
                 ValidateInput(newClientLastName, nameof(LastName));
 
-                OnPropertyChanged("LastName");
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -83,7 +77,7 @@ namespace Presentation.ViewModel
             set
             {
                 clientViewModels = value;
-                OnPropertyChanged("ClientViewModels");
+                OnPropertyChanged(nameof(ClientViewModels));
             }
         }
 
@@ -93,9 +87,9 @@ namespace Presentation.ViewModel
             set
             {
                 selectedViewModel = value;
-                OnPropertyChanged("SelectedViewModel");
-                
                 IsClientViewModelSelected = true;
+                OnPropertyChanged(nameof(SelectedViewModel));
+
             }
         }
 
@@ -105,7 +99,7 @@ namespace Presentation.ViewModel
             set
             {
                 isClientViewModelSelected = value;
-                OnPropertyChanged("IsClientViewModelSelected");
+                OnPropertyChanged(nameof(IsClientViewModelSelected));
             }
         }
 
@@ -118,6 +112,8 @@ namespace Presentation.ViewModel
         {
             get => deleteCommand;
         }
+
+        public bool CanAdd => !HasErrors;
 
         public Action<string> MessageBoxShowDelegate { get; set; }
             = x => throw new ArgumentOutOfRangeException(
@@ -167,7 +163,7 @@ namespace Presentation.ViewModel
             }
             else
             {
-                ShowPopupWindow("Cannot delete a client, since he has events registered in the system");
+                ShowPopupWindow("Can't delete a client, since he has registered events");
             }
         }
 
@@ -181,16 +177,10 @@ namespace Presentation.ViewModel
             return !(selectedViewModel is null);
         }
 
-        private bool NonEmptyInputs()
-        {
-            return !(string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName));
-        }
-
         private void ShowPopupWindow(string message)
         {
             MessageBoxShowDelegate(message);
         }
-
 
         private void FetchClients()
         {
@@ -203,6 +193,7 @@ namespace Presentation.ViewModel
                     clientViewModels.Add(new ClientItemViewModel(c));
                 }
             });
+
             OnPropertyChanged("ClientViewModels");
         }
 
@@ -215,9 +206,9 @@ namespace Presentation.ViewModel
             {
                 errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
             }
-            else if (field.Length > 10)
+            else if (field.Length > 20)
             {
-                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 10!");
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
             }
         }
 
@@ -233,6 +224,7 @@ namespace Presentation.ViewModel
         private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanAdd));
         }
 
         public IEnumerable GetErrors(string propertyName)

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Common;
@@ -21,11 +16,14 @@ namespace Presentation.ViewModel
         public ClientItemViewModel() { }
 
 
-        public ClientItemViewModel(ClientModel client)
+        public ClientItemViewModel(ClientModel clientModel)
         {
-            Id = client._id;
-            FirstName = client._firstName;
-            LastName = client._lastName;
+
+            client = clientModel;
+            id = clientModel._id; 
+            firstName = clientModel._firstName;
+            lastName = clientModel._lastName;
+
             service = new ClientService();
 
             configureCommands();
@@ -33,13 +31,25 @@ namespace Presentation.ViewModel
 
         private void configureCommands()
         {
-            updateCommand = new RelayCommand(e => {UpdateClient();}, condition => NonEmptyInputs());
+            updateCommand = new RelayCommand(e => {UpdateClient();});
         }
 
         #endregion
 
 
         #region API
+
+        public ClientModel Client
+        {
+            get => client;
+
+            set
+            {
+                client = value;
+                OnPropertyChanged(nameof(Client));
+            }
+        }
+
         public int Id
         {
             get => id;
@@ -47,7 +57,7 @@ namespace Presentation.ViewModel
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                OnPropertyChanged(nameof(Id));
             }
         }
 
@@ -58,21 +68,11 @@ namespace Presentation.ViewModel
             {
                 firstName = value;
 
-                errorValidator.ClearErrors(nameof(FirstName));
-
-                if (firstName.Length > 5)
-                {
-                    errorValidator.AddError(nameof(FirstName), "Name's maximum length is 10!");
-                }
-                else if (string.IsNullOrWhiteSpace(firstName))
-                {
-                    errorValidator.AddError(nameof(FirstName), "Name can't be empty!");
-                }
+                ValidateInput(firstName, nameof(FirstName));
 
                 OnPropertyChanged(nameof(FirstName));
             }
         }
-
 
         public string LastName
         {
@@ -81,16 +81,7 @@ namespace Presentation.ViewModel
             {
                 lastName = value;
 
-                errorValidator.ClearErrors(nameof(LastName));
-
-                if (lastName.Length > 10)
-                {
-                    errorValidator.AddError(nameof(LastName), "Surname's maximum length is 10!");
-                } 
-                else if (string.IsNullOrWhiteSpace(lastName))
-                {
-                    errorValidator.AddError(nameof(lastName), "Surname can't be empty!");
-                }
+                ValidateInput(lastName, nameof(LastName));
 
                 OnPropertyChanged(nameof(LastName));
             }
@@ -101,10 +92,14 @@ namespace Presentation.ViewModel
             get => updateCommand;
         }
 
+        public bool CanUpdate => !HasErrors;
+
         #endregion
 
 
         #region PrivateAttributes
+
+        private ClientModel client;
 
         private string firstName;
         private string lastName;
@@ -132,9 +127,18 @@ namespace Presentation.ViewModel
                 });
         }
 
-        private bool NonEmptyInputs()
+        private void ValidateInput(string field, string propertyName)
         {
-            return !(string.IsNullOrWhiteSpace(LastName) || string.IsNullOrWhiteSpace(FirstName));
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 20)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
+            }
         }
 
         #endregion
@@ -147,6 +151,7 @@ namespace Presentation.ViewModel
         private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanUpdate));
         }
 
         public IEnumerable GetErrors(string propertyName)

@@ -25,7 +25,9 @@ namespace Presentation.Common
             {
                 PropertyErrors.Add(propertyName, new List<string>());
             }
+
             PropertyErrors[propertyName].Add(errorMessage);
+            OnErrorsChanged(nameof(propertyName));
         }
 
         public void OnErrorsChanged(string propertyName)
