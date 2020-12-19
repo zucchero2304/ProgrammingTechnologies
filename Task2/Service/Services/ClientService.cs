@@ -15,7 +15,6 @@ namespace Service
         {
             List<ClientModel> models = new List<ClientModel>();
 
-
             foreach (var client in clientRepository.GetAllClients())
             {
                 models.Add(MapClientDetails(client));
@@ -25,9 +24,10 @@ namespace Service
 
         public ClientModel GetClientById(int id)
         {
-            return MapClientDetails(clientRepository.GetClientById(id));
-        }
+            Client client = clientRepository.GetClientById(id);
 
+            return (client is null) ? null : MapClientDetails(client);
+        }
         public ClientModel GetClientByCredentials(string name, string surname)
         {
             return MapClientDetails(clientRepository.GetClientByCredentials(name, surname));
@@ -38,25 +38,35 @@ namespace Service
             return MapClientDetails(clientRepository.GetLastClient());
         }
 
-        public void AddClient(ClientModel model)
+        public bool AddClient(ClientModel model)
         {
+            if (model == null)
+            {
+                return false;
+            }
             clientRepository.AddClient(MapModelDetails(model));
+            return true;
         }
 
-        public void DeleteClient(int id)
+        public bool DeleteClient(int id)
         {
             if (ClientExists(id) && HasNoEvents(id))
             {
                 clientRepository.DeleteClient(id);
+                return true;
             }
+            return false;
         }
 
-        public void UpdateClient(ClientModel model)
+        public bool UpdateClient(ClientModel model)
         {
             if (ClientExists(model._id))
             {
                 clientRepository.UpdateClient(MapModelDetails(model));
+                return true;
             }
+
+            return false;
         }
 
         public bool HasNoEvents(int id)

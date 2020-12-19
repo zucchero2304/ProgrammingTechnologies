@@ -186,13 +186,10 @@ namespace Presentation.ViewModel
         {
             clientViewModels.Clear();
 
-            Task.Run(() =>
+            foreach (var c in service.GetAllClients())
             {
-                foreach (var c in service.GetAllClients())
-                {
-                    clientViewModels.Add(new ClientItemViewModel(c));
-                }
-            });
+                clientViewModels.Add(new ClientItemViewModel(c));
+            }
 
             OnPropertyChanged("ClientViewModels");
         }

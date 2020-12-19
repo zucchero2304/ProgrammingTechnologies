@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{A73C3DDC-A49F-40AF-BB7A-32D43614CA1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "Presentation\GUI.csproj", "{A73C3DDC-A49F-40AF-BB7A-32D43614CA1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{C659DA3F-1745-4ACE-91B0-C77CE74D252E}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{B7F5BE58-A86B-4B16-94CB-AEAA060C8D80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{F5AE4C25-51BB-4103-A074-192E26892F4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "PresentationTest\GUITest.csproj", "{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F5AE4C25-51BB-4103-A074-192E26892F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5AE4C25-51BB-4103-A074-192E26892F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5AE4C25-51BB-4103-A074-192E26892F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

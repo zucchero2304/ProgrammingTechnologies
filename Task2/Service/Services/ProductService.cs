@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Data;
+using Data.Repositories;
 
 namespace Service
 {
-    // how to handle nulls in thus layer? 
     public class ProductService
     {
         private ProductRepository repository = new ProductRepository();
-        private PurchaseEventRepository eventRepository = new PurchaseEventRepository();
+        private PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
+        private ReturnEventRepository returnRepository = new ReturnEventRepository();
 
         public List<ProductModel> GetAllProducts()
         {
@@ -22,31 +23,22 @@ namespace Service
             return models;
         }
 
-        private Product MapModelDetails(ProductModel model)
+        public bool AddProduct(ProductModel product)
         {
-            return new Product()
+            if (product == null || ContainsProductWithName(product._productName))
             {
-                Id = model._id,
-                ProductName = model._productName,
-                Price = model._price,
-                Category = model._category
-            };
-        }
+                return false;
+            }
 
-        private ProductModel MapProductDetails(Product product)
-        {
-            return new ProductModel()
-            {
-                _id = product.Id,
-                _productName = product.ProductName,
-                _price = product.Price,
-                _category = product.Category
-            };
+            repository.AddProduct(MapModelDetails(product));
+            return true;
         }
 
         public ProductModel GetProductById(int id)
         {
-            return MapProductDetails(repository.GetProductById(id));
+            Product product = repository.GetProductById(id);
+
+            return (product is null) ? null : MapProductDetails(product);
         }
 
         public List<ProductModel> GetProductsByCategory(ProductCategory category)
@@ -81,13 +73,6 @@ namespace Service
             return MapProductDetails(repository.GetLastProduct());
         }
 
-        public void AddProduct(ProductModel product)
-        {
-            if (!ContainsProductWithName(product._productName))
-            {
-                repository.AddProduct(MapModelDetails(product));
-            }
-        }
         public List<ProductModel> GetProductsCheaperThan(float price)
         {
             List<ProductModel> models = new List<ProductModel>();
@@ -111,12 +96,21 @@ namespace Service
             return models;
 
         }
-        public void DeleteProduct(int id)
+
+        public bool DeleteProduct(int id)
         {
-            if (HasNoPurchases(id))
+            if (CanBeDeleted(id))
             {
                 repository.DeleteProduct(id);
+                return true;
             }
+
+            return false;
+        }
+
+        public void UpdateSelectedProduct(string name)
+        {
+            repository.UpdateProduct(MapModelDetails(GetProductByName(name)));
         }
 
         public List<ProductCategory> GetAllCategories()
@@ -131,7 +125,17 @@ namespace Service
 
         public bool HasNoPurchases(int id)
         {
-            return eventRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
+            return purchaseRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
+        }
+
+        public bool HasNoReturns(int id)
+        {
+            return returnRepository.GetReturnEventsByProductId(id).Count.Equals(0);
+        }
+
+        public bool CanBeDeleted(int id)
+        {
+            return HasNoPurchases(id) && HasNoReturns(id) && ProductExists(id);
         }
 
         public bool ContainsProductWithName(string name)
@@ -139,10 +143,31 @@ namespace Service
             return repository.GetProductByName(name) != null;
         }
 
-        public void UpdateSelectedProduct(string name)
+        public bool ProductExists(int id)
         {
-            repository.UpdateProduct(MapModelDetails(GetProductByName(name)));
+            return repository.GetProductById(id) != null;
         }
 
+        private Product MapModelDetails(ProductModel model)
+        {
+            return new Product()
+            {
+                Id = model._id,
+                ProductName = model._productName,
+                Price = model._price,
+                Category = model._category
+            };
+        }
+
+        private ProductModel MapProductDetails(Product product)
+        {
+            return new ProductModel()
+            {
+                _id = product.Id,
+                _productName = product.ProductName,
+                _price = product.Price,
+                _category = product.Category
+            };
+        }
     }
 }

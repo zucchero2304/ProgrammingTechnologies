@@ -5,7 +5,7 @@ using Data;
 
 namespace ServicesTests
 {
-   /* [TestClass]
+    [TestClass]
     public class ReturnServiceTests
     {
         ReturnService returnService = new ReturnService();
@@ -17,41 +17,41 @@ namespace ServicesTests
         [TestMethod]
         public void TestMethod1()
         {
-            Client client = new Client()
+            ClientModel client = new ClientModel()
             {
-                FirstName = "TestService",
-                LastName = "TestService"
+                _firstName = "TestService",
+                _lastName = "TestService"
             };
 
-            Product product = new Product()
+            ProductModel product = new ProductModel()
             {
-                ProductName = "TestName",
-                Price = 15.0f,
-                Category = new Product() { Category = "Game" }.Category,
+                _productName = "TestName",
+                _price = 15.0f,
+                _category = new Product() { Category = "Game" }.Category,
             };
 
             clientService.AddClient(client);
             productService.AddProduct(product);
 
-            Client fetchedClient = clientService.GetLastlyAddedClient();
-            Product fetchedProduct = productService.GetLastlyAddedProduct();
+            ClientModel fetchedClient = clientService.GetLastlyAddedClient();
+            ProductModel fetchedProduct = productService.GetLastlyAddedProduct();
 
             PurchaseEvent purchaseEvent = new PurchaseEvent()
             {
-                ClientId = fetchedClient.Id,
-                ProductId = fetchedProduct.Id,
+                ClientId = fetchedClient._id,
+                ProductId = fetchedProduct._id,
                 EventDate = System.DateTime.Now.ToLongDateString()
             };
 
             purchaseService.AddPurchaseEvent(purchaseEvent);
 
             PurchaseEvent fetchedPurchase =
-                purchaseService.GetLastClientPurchaseOfProduct(fetchedClient.Id, fetchedProduct.Id);
+                purchaseService.GetLastClientPurchaseOfProduct(fetchedClient._id, fetchedProduct._id);
 
             ReturnEvent returnEvent = new ReturnEvent()
             {
-                ClientId = fetchedClient.Id,
-                ProductId = fetchedProduct.Id,
+                ClientId = fetchedClient._id,
+                ProductId = fetchedProduct._id,
                 EventDate = DateTime.Now.ToString()
             };
 
@@ -65,40 +65,40 @@ namespace ServicesTests
         [TestMethod]
         public void PurchaseNotDeletedWithWrongReturnData()
         {
-            Client client = new Client()
+            ClientModel client = new ClientModel()
             {
-                FirstName = "TestService2",
-                LastName = "TestService2"
+                _firstName = "TestService2",
+                _lastName = "TestService2"
             };
 
-            Product product = new Product()
+            ProductModel product = new ProductModel()
             {
-                ProductName = "TestName2",
-                Price = 15.0f,
-                Category = new Product() { Category = "Game" }.Category,
+                _productName = "TestName2",
+                _price = 15.0f,
+                _category = "Game"
             };
 
             clientService.AddClient(client);
             productService.AddProduct(product);
 
-            Client fetchedClient = clientService.GetLastlyAddedClient();
-            Product fetchedProduct = productService.GetLastlyAddedProduct();
-
+            ClientModel fetchedClient = clientService.GetLastlyAddedClient();
+            ProductModel fetchedProduct = productService.GetLastlyAddedProduct();
+            
             PurchaseEvent purchaseEvent = new PurchaseEvent()
             {
-                ClientId = fetchedClient.Id,
-                ProductId = fetchedProduct.Id,
+                ClientId = fetchedClient._id,
+                ProductId = fetchedProduct._id,
                 EventDate = System.DateTime.Now.ToLongDateString()
             };
 
             purchaseService.AddPurchaseEvent(purchaseEvent);
 
             PurchaseEvent fetchedPurchase =
-                purchaseService.GetLastClientPurchaseOfProduct(fetchedClient.Id, fetchedProduct.Id);
+                purchaseService.GetLastClientPurchaseOfProduct(fetchedClient._id, fetchedProduct._id);
 
             ReturnEvent returnEvent = new ReturnEvent()
             {
-                ClientId = fetchedClient.Id,
+                ClientId = fetchedClient._id,
                 ProductId = 0,
                 EventDate = DateTime.Now.ToString()
             };
@@ -110,5 +110,5 @@ namespace ServicesTests
             Assert.IsNotNull(purchaseService.GetPurchaseById(fetchedPurchase.Id));
 
         }
-    }*/
+    }
 }

@@ -19,6 +19,8 @@ namespace Presentation.ViewModel
         public MainViewModel()
         {
             selectedViewModel = new ClientListViewModel();
+
+            switchViewCommand = new RelayCommand(view => { SwitchView(view.ToString()); });
         }
 
         public ViewModelBase SelectedViewModel
@@ -33,14 +35,7 @@ namespace Presentation.ViewModel
 
         public ICommand SwitchViewCommand
         {
-            get
-            {
-                if (switchViewCommand == null)
-                {
-                    switchViewCommand = new RelayCommand(view => { SwitchView(view.ToString());});
-                }
-                return switchViewCommand;
-            }
+            get => switchViewCommand;
         }
 
         public void SwitchView(string view)

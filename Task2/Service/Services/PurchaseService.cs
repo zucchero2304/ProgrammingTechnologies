@@ -18,7 +18,6 @@ namespace Service
                 purchaseRepository.AddPurchaseEvent(ev);
             }
         }
-
         public List<PurchaseEvent> GetAllPurchases()
         {
             return purchaseRepository.GetAllPurchaseEvents();
