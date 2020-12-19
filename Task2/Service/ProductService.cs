@@ -10,53 +10,106 @@ namespace Service
     {
         private ProductRepository repository = new ProductRepository();
         private PurchaseEventRepository eventRepository = new PurchaseEventRepository();
-        
-        public List<Product> GetAllProducts()
-        {
-            return repository.GetAllProducts();
-        }
 
-        public Product GetProductById(int id)
+        public List<ProductModel> GetAllProducts()
         {
-            return repository.GetProductById(id);
-        }
+            List<ProductModel> models = new List<ProductModel>();
 
-        public List<Product> GetProductsByCategory(ProductCategory category)
-        {
-            return repository.GetProductsByCategory(category);
-        }
-
-        public List<Product> GetProductsByPrice(float price)
-        {
-            return repository.GetProductsByPrice(price);
-        }
-
-        public Product GetProductByName(string name)
-        {
-            return repository.GetProductByName(name);
-        }
-
-        public Product GetLastlyAddedProduct()
-        {
-            return repository.GetLastProduct();
-        }
-
-        public void AddProduct(Product product)
-        {
-            if (!ContainsProductWithName(product.ProductName))
+            foreach (var product in repository.GetAllProducts())
             {
-                repository.AddProduct(product);
+                models.Add(MapProductDetails(product));
+            }
+            return models;
+        }
+
+        private Product MapModelDetails(ProductModel model)
+        {
+            return new Product()
+            {
+                Id = model._id,
+                ProductName = model._productName,
+                Price = model._price,
+                Category = model._category
+            };
+        }
+
+        private ProductModel MapProductDetails(Product product)
+        {
+            return new ProductModel()
+            {
+                _id = product.Id,
+                _productName = product.ProductName,
+                _price = product.Price,
+                _category = product.Category
+            };
+        }
+
+        public ProductModel GetProductById(int id)
+        {
+            return MapProductDetails(repository.GetProductById(id));
+        }
+
+        public List<ProductModel> GetProductsByCategory(ProductCategory category)
+        {
+            List<ProductModel> models = new List<ProductModel>();
+
+            foreach (var product in repository.GetProductsByCategory(category))
+            {
+                models.Add(MapProductDetails(product));
+            }
+            return models;
+        }
+
+        public List<ProductModel> GetProductsByPrice(float price)
+        {
+            List<ProductModel> models = new List<ProductModel>();
+
+            foreach (var product in repository.GetProductsByPrice(price))
+            {
+                models.Add(MapProductDetails(product));
+            }
+            return models;
+        }
+
+        public ProductModel GetProductByName(string name)
+        {
+            return MapProductDetails(repository.GetProductByName(name));
+        }
+
+        public ProductModel GetLastlyAddedProduct()
+        {
+            return MapProductDetails(repository.GetLastProduct());
+        }
+
+        public void AddProduct(ProductModel product)
+        {
+            if (!ContainsProductWithName(product._productName))
+            {
+                repository.AddProduct(MapModelDetails(product));
             }
         }
-
-        public List<Product> GetProductsCheaperThan(float price)
+        public List<ProductModel> GetProductsCheaperThan(float price)
         {
-            return repository.GetProductsCheaperThan(price);
+            List<ProductModel> models = new List<ProductModel>();
+
+            foreach (var product in repository.GetProductsCheaperThan(price))
+            {
+                models.Add(MapProductDetails(product));
+            }
+            return models;
+
         }
 
-        public List<Product> GetProductsMoreExpensiveThan(float price)
+        public List<ProductModel> GetProductsMoreExpensiveThan(float price)
         {
-            return repository.GetProductsMoreExpensiveThan(price);
+            List<ProductModel> models = new List<ProductModel>();
+
+            foreach (var product in repository.GetProductsMoreExpensiveThan(price))
+            {
+                models.Add(MapProductDetails(product));
+            }
+            return models;
+
         }
         public void DeleteProduct(int id)
         {
@@ -75,7 +128,7 @@ namespace Service
         {
             return repository.GetCategoryByName(category);
         }
-        
+
         public bool HasNoPurchases(int id)
         {
             return eventRepository.GetPurchaseEventsByProductId(id).Count.Equals(0);
@@ -85,5 +138,11 @@ namespace Service
         {
             return repository.GetProductByName(name) != null;
         }
+
+        public void UpdateSelectedProduct(string name)
+        {
+            repository.UpdateProduct(MapModelDetails(GetProductByName(name)));
+        }
+
     }
 }

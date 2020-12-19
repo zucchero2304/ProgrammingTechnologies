@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Presentation.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace Presentation.View.Products
         public ProductListView()
         {
             InitializeComponent();
+
+            ProductListViewModel _vm = (ProductListViewModel)DataContext;
+
+            _vm.MessageBoxShowDelegate = text => MessageBox.Show(
+                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

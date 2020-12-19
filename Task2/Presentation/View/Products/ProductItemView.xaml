@@ -4,10 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.View.Products"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid>
-            
+             xmlns:products="clr-namespace:Presentation.ViewModel"
+             mc:Ignorable="d" Background="Aqua" Height="444" Width="444.8">
+
+    <UserControl.DataContext>
+        <products:ProductItemViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Margin="0,0,-0.2,0">
+        <Label Content="Category:" HorizontalAlignment="Left" Margin="36,34,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Category , UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="102,34,0,0" VerticalAlignment="Top" Height="26" Width="168"/>
+
+        <Label Content="Change category to:" HorizontalAlignment="Left" Margin="36,83,0,0" VerticalAlignment="Top"/>
+        <ComboBox Text="{Binding Category}"  HorizontalAlignment="Left" Margin="171,86,0,0" VerticalAlignment="Top" Width="191" Height="23">
+            <ComboBoxItem>Book</ComboBoxItem>
+            <ComboBoxItem>Drug</ComboBoxItem>
+            <ComboBoxItem>Electronics</ComboBoxItem>
+            <ComboBoxItem>Food</ComboBoxItem>
+            <ComboBoxItem>Furniture</ComboBoxItem>
+            <ComboBoxItem>Game</ComboBoxItem>
+            <ComboBoxItem>Miscellaneous</ComboBoxItem>
+        </ComboBox>
+
+        <Label Content="Change name to:" HorizontalAlignment="Left" Margin="36,127,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="26" Margin="171,127,0,0" TextWrapping="Wrap" Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
+
+
+        <Label Content="Change price to:" HorizontalAlignment="Left" Margin="36,173,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="26" Margin="171,173,0,0" TextWrapping="Wrap" Text="{Binding Price , UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
+
+        <Button Content="Update" Command="{Binding UpdateCommand}" HorizontalAlignment="Left" Margin="287,227,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
+
 </UserControl>
