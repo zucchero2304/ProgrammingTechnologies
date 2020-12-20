@@ -48,7 +48,7 @@ namespace Presentation.ViewModel
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                OnPropertyChanged(nameof(Id));
             }
         }
 
@@ -58,8 +58,8 @@ namespace Presentation.ViewModel
             set
             {
                 productName = value;
-                ValidateStringInput(productName, nameof(productName));
-                OnPropertyChanged("ProductName");
+                ValidateStringInput(productName, nameof(ProductName));
+                OnPropertyChanged(nameof(ProductName));
             }
         }
         public double Price
@@ -68,8 +68,8 @@ namespace Presentation.ViewModel
             set
             {
                 price = value;
-                ValidatePriceInput(price, nameof(price));
-                OnPropertyChanged(nameof(price));
+                ValidatePriceInput(price, nameof(Price));
+                OnPropertyChanged(nameof(Price));
             }
         }
 

@@ -54,8 +54,8 @@ namespace Presentation.ViewModel
             set
             {
                 newProductName = value;
-                ValidateStringInput(newProductName, nameof(newProductName));
-                OnPropertyChanged("ProductName");
+                ValidateStringInput(newProductName, nameof(ProductName));
+                OnPropertyChanged(nameof(ProductName));
             }
         }
 
@@ -65,8 +65,8 @@ namespace Presentation.ViewModel
             set
             {
                 newProductPrice = value;
-                ValidatePriceInput(newProductPrice, nameof(newProductPrice));
-                OnPropertyChanged("Price");
+                ValidatePriceInput(newProductPrice, nameof(Price));
+                OnPropertyChanged(nameof(Price));
             }
         }
 
@@ -76,7 +76,7 @@ namespace Presentation.ViewModel
             set
             {
                 newProductCategory = value;
-                OnPropertyChanged("ProductCategory");
+                OnPropertyChanged(nameof(Category));
             }
         }
 
@@ -87,7 +87,7 @@ namespace Presentation.ViewModel
             set
             {
                 productViewModels = value;
-                OnPropertyChanged("ProductViewModels");
+                OnPropertyChanged(nameof(ProductViewModels));
             }
         }
 
@@ -97,7 +97,7 @@ namespace Presentation.ViewModel
             set
             {
                 selectedViewModel = value;
-                OnPropertyChanged("SelectedViewModel");
+                OnPropertyChanged(nameof(SelectedViewModel));
             }
         }
         public ICommand AddCommand

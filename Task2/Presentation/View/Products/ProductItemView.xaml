@@ -20,7 +20,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TextBox">
-                            <StackPanel>
+                            <StackPanel Margin="0,0,2.2,-23.4">
                                 <Border Padding="{TemplateBinding Padding}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -57,14 +57,14 @@
             <ComboBoxItem>Miscellaneous</ComboBoxItem>
         </ComboBox>
 
-        <Label Content="Change name to:" HorizontalAlignment="Left" Margin="36,127,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="171,127,0,0" TextWrapping="Wrap" Text="{Binding ProductName, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
+        <Label Content="Change name to:" HorizontalAlignment="Left" Margin="36,137,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="54" Margin="171,137,0,0" TextWrapping="Wrap" Text="{Binding ProductName ,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
 
 
-        <Label Content="Change price to:" HorizontalAlignment="Left" Margin="36,173,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="171,173,0,0" TextWrapping="Wrap" Text="{Binding Price, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
+        <Label Content="Change price to:" HorizontalAlignment="Left" Margin="36,196,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="41" Margin="171,196,0,0" TextWrapping="Wrap" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"/>
 
-        <Button Content="Update" Command="{Binding UpdateCommand}" HorizontalAlignment="Left" Margin="287,227,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Update" Command="{Binding UpdateCommand}" HorizontalAlignment="Left" Margin="287,242,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 
 </UserControl>
