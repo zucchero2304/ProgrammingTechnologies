@@ -1,5 +1,4 @@
-﻿using Presentation.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation.View
+namespace Presentation.View.Events
 {
     /// <summary>
-    /// Interaction logic for ProductListView.xaml
+    /// Interaction logic for EventItemView.xaml
     /// </summary>
-    public partial class ProductListView : UserControl
+    public partial class EventItemView : UserControl
     {
-        public ProductListView()
+        public EventItemView()
         {
             InitializeComponent();
-
-            ProductListViewModel _vm = (ProductListViewModel)DataContext;
-
-            _vm.MessageBoxShowDelegate = text => MessageBox.Show(
-                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

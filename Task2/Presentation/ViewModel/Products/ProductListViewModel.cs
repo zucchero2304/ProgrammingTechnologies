@@ -8,11 +8,13 @@ using System.Windows.Input;
 using Presentation.Model;
 using Service;
 using Presentation.Command;
-
+using Presentation.Common;
+using System.ComponentModel;
+using System.Collections;
 
 namespace Presentation.ViewModel
 {
-    public class ProductListViewModel : ViewModelBase
+    public class ProductListViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         #region InitialSetup
         public ProductListViewModel()
@@ -52,6 +54,7 @@ namespace Presentation.ViewModel
             set
             {
                 newProductName = value;
+                ValidateStringInput(newProductName, nameof(newProductName));
                 OnPropertyChanged("ProductName");
             }
         }
@@ -62,6 +65,7 @@ namespace Presentation.ViewModel
             set
             {
                 newProductPrice = value;
+                ValidatePriceInput(newProductPrice, nameof(newProductPrice));
                 OnPropertyChanged("Price");
             }
         }
@@ -105,6 +109,9 @@ namespace Presentation.ViewModel
         {
             get => deleteCommand;
         }
+
+        public bool CanAdd => !HasErrors;
+
 
         public Action<string> MessageBoxShowDelegate { get; set; }
             = x => throw new ArgumentOutOfRangeException(
@@ -176,6 +183,56 @@ namespace Presentation.ViewModel
             MessageBoxShowDelegate(message);
         }
 
+
+        private void ValidateStringInput(string field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 20)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
+            }
+        }
+
+        private void ValidatePriceInput(double field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (field <= 0)
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} has to be more than zero. It's a shop, not a charity!");
+            }
+            else if (field.ToString().Length > 10)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 10!");
+            }
+        }
+
+        #endregion
+
+
+        #region Validation
+
+        private ErrorValidator errorValidator = new ErrorValidator();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanAdd));
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errorValidator.GetErrors(propertyName);
+        }
+
+        public bool HasErrors => errorValidator.HasErrors;
 
         #endregion
     }

@@ -139,9 +139,9 @@ namespace Service
             return repository.GetProductByName(name) != null;
         }
 
-        public void UpdateSelectedProduct(string name)
+        public void UpdateSelectedProduct(ProductModel productModel)
         {
-            repository.UpdateProduct(MapModelDetails(GetProductByName(name)));
+            repository.UpdateProduct(MapModelDetails(productModel));
         }
 
     }
