@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -67,7 +68,6 @@ namespace Presentation.ViewModel
                 newClientLastName = value;
 
                 ValidateInput(newClientLastName, nameof(LastName));
-
                 OnPropertyChanged(nameof(LastName));
             }
         }
@@ -115,7 +115,7 @@ namespace Presentation.ViewModel
             get => deleteCommand;
         }
 
-        public bool CanAdd => !HasErrors;
+        public bool CanAdd => !(HasErrors || string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName));
 
         public Action<string> MessageBoxShowDelegate { get; set; }
             = x => throw new ArgumentOutOfRangeException(

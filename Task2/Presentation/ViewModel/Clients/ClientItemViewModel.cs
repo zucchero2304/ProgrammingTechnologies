@@ -15,11 +15,8 @@ namespace Presentation.ViewModel
 
         public ClientItemViewModel() { }
 
-
         public ClientItemViewModel(ClientModel clientModel)
         {
-
-            client = clientModel;
             id = clientModel._id; 
             firstName = clientModel._firstName;
             lastName = clientModel._lastName;
@@ -31,24 +28,13 @@ namespace Presentation.ViewModel
 
         private void configureCommands()
         {
-            updateCommand = new RelayCommand(e => {UpdateClient();});
+            updateCommand = new RelayCommand(e => {UpdateClient();}, c => CanUpdate);
         }
 
         #endregion
 
 
         #region API
-
-        public ClientModel Client
-        {
-            get => client;
-
-            set
-            {
-                client = value;
-                OnPropertyChanged(nameof(Client));
-            }
-        }
 
         public int Id
         {
@@ -92,14 +78,12 @@ namespace Presentation.ViewModel
             get => updateCommand;
         }
 
-        public bool CanUpdate => !HasErrors;
+        public bool CanUpdate => !(HasErrors || string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName));
 
         #endregion
 
 
         #region PrivateAttributes
-
-        private ClientModel client;
 
         private string firstName;
         private string lastName;
@@ -115,6 +99,7 @@ namespace Presentation.ViewModel
 
 
         #region PrivateMethods
+
 
         private void UpdateClient()
         {
