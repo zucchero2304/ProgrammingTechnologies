@@ -1,5 +1,4 @@
-﻿using Presentation.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,19 +16,13 @@ using System.Windows.Shapes;
 namespace Presentation.View.Events
 {
     /// <summary>
-    /// Interaction logic for EventListView.xaml
+    /// Interaction logic for ReturnView.xaml
     /// </summary>
-    public partial class EventListView : UserControl
+    public partial class ReturnView : UserControl
     {
-        public EventListView()
+        public ReturnView()
         {
             InitializeComponent();
-
-            EventListViewModel _vm = (EventListViewModel)DataContext;
-
-            _vm.MessageBoxShowDelegate = text => MessageBox.Show(
-                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information);
-
         }
     }
 }

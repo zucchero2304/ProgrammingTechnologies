@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Presentation.View.Events
 {
     /// <summary>
-    /// Interaction logic for EventItemView.xaml
+    /// Interaction logic for PurchaseView.xaml
     /// </summary>
-    public partial class EventItemView : UserControl
+    public partial class PurchaseView : UserControl
     {
-        public EventItemView()
+        public PurchaseView()
         {
             InitializeComponent();
         }

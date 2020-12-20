@@ -50,7 +50,7 @@ namespace Presentation.ViewModel
                     ShowProductsView();
                     break;
 
-                case "EventsListView":
+                case "EventListView":
                     ShowEventsView();
                     break;
             }
@@ -68,7 +68,7 @@ namespace Presentation.ViewModel
 
         private void ShowEventsView()
         {
-            // not implemented yet
+            SelectedViewModel = new EventListViewModel();
         }
     }
 }

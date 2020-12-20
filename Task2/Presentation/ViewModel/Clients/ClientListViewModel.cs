@@ -159,6 +159,7 @@ namespace Presentation.ViewModel
                 ? "Client was deleted!" : "Can't delete a client, since he has registered events";
 
             ShowPopupWindow(message);
+            FetchClients();
             OnPropertyChanged(nameof(ClientViewModels));
         }
 

@@ -68,17 +68,17 @@ namespace Service
             return PurchaseExists(ev.Id) || !ClientExists(ev.ClientId) || !ProductExists(ev.ProductId);
         }
 
-        private bool ClientExists(int id)
+        public bool ClientExists(int id)
         {
             return clientRepository.GetClientById(id) != null;
         }
 
-        private bool ProductExists(int id)
+        public bool ProductExists(int id)
         {
             return productRepository.GetProductById(id) != null;
         }
 
-        private bool PurchaseExists(int id)
+        public bool PurchaseExists(int id)
         {
             return purchaseRepository.GetPurchaseEventById(id) != null;
         }

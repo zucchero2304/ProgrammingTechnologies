@@ -20,7 +20,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Margin="10" Width="200" Content="Clients" Command="{Binding SwitchViewCommand}" CommandParameter="ClientListView"/>
             <Button Margin="10" Width="200" Content="Products" Command="{Binding SwitchViewCommand}" CommandParameter="ProductListView"/>
-            <Button Margin="10,10,10,9.556" Width="200" Content="Events" Command="{Binding SwitchViewCommand}" CommandParameter="ClientsListView"/>
+            <Button Margin="10,10,10,9.556" Width="200" Content="Events" Command="{Binding SwitchViewCommand}" CommandParameter="EventListView"/>
         </StackPanel>
     </Grid>
 </Window>

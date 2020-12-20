@@ -5,6 +5,7 @@
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:view="clr-namespace:Presentation.View"
              xmlns:products="clr-namespace:Presentation.View"
+             xmlns:events1="clr-namespace:Presentation.View.Events"
              StartupUri="/View/MainView.xaml">
     <Application.Resources>
 
@@ -13,6 +14,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:ProductListViewModel}">
             <products:ProductListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:EventListViewModel}">
+            <events1:EventListView/>
         </DataTemplate>
 
         <ControlTemplate x:Key="ErrorTemplate">

@@ -29,10 +29,7 @@ namespace Presentation.ViewModel
 
             productViewModels = new ObservableCollection<ProductItemViewModel>();
 
-            foreach (var c in service.GetAllProducts())
-            {
-                productViewModels.Add(new ProductItemViewModel(c));
-            }
+            FetchProducts();
         }
 
         private void configureCommands()
@@ -138,6 +135,18 @@ namespace Presentation.ViewModel
 
         #region PrivateMethods
 
+        private void FetchProducts()
+        {
+            productViewModels.Clear();
+
+            foreach (var c in service.GetAllProducts())
+            {
+                productViewModels.Add(new ProductItemViewModel(c));
+            }
+
+            OnPropertyChanged("ProductViewModels");
+        }
+
         private void AddProduct()
         {
             ProductModel newProduct = new ProductModel()
@@ -149,6 +158,7 @@ namespace Presentation.ViewModel
             };
 
             service.AddProduct(newProduct);
+            FetchProducts();
         }
 
         private void DeleteProduct()
@@ -156,6 +166,7 @@ namespace Presentation.ViewModel
             if (ProductHasNoPurchases())
             {
                 service.DeleteProduct(SelectedViewModel.Id);
+                FetchProducts();
             }
             else
             {
