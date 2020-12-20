@@ -52,6 +52,8 @@
     <Compile Include="ClientItemViewModelTest.cs" />
     <Compile Include="ClientListViewModelTest.cs" />
     <Compile Include="MainViewModelTest.cs" />
+    <Compile Include="ProductItemViewModelTest.cs" />
+    <Compile Include="ProductListViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

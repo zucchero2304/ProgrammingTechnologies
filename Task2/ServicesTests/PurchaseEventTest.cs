@@ -104,7 +104,7 @@ namespace ServicesTests
                 ProductId = productId,
                 EventDate = DateTime.Now.ToLongDateString()
             };
-
+            
             purchaseService.AddPurchaseEvent(e);
 
            PurchaseEvent last = purchaseService.GetLastClientPurchaseOfProduct(clientId, productId);

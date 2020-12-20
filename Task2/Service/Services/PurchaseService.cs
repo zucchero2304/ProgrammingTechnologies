@@ -24,7 +24,7 @@ namespace Service
 
         public bool DeletePurchaseEvent(int id)
         {
-            if (ProductExists(id))
+            if (PurchaseExists(id))
             {
                 purchaseRepository.DeletePurchaseEvent(id);
                 return true;

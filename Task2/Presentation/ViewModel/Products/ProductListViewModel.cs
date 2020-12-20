@@ -167,7 +167,8 @@ namespace Presentation.ViewModel
         {
             return service.HasNoPurchases(SelectedViewModel.Id);
         }
-        private bool ProductViewModelIsSelected()
+
+        public bool ProductViewModelIsSelected()
         {
             return !(selectedViewModel is null);
         }

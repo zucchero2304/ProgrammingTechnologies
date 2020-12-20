@@ -34,7 +34,7 @@ namespace Presentation.ViewModel
 
         private void configureCommands()
         {
-            updateCommand = new RelayCommand(e => { UpdateProduct(); });
+            updateCommand = new RelayCommand(e => { UpdateProduct();}, c => CanUpdate);
         }
 
         #endregion

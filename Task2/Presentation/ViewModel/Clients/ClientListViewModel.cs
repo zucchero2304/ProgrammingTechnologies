@@ -28,7 +28,6 @@ namespace Presentation.ViewModel
 
             clientViewModels = new ObservableCollection<ClientItemViewModel>();
 
-            IsClientViewModelSelected = false;
 
             FetchClients();
         }
@@ -49,25 +48,24 @@ namespace Presentation.ViewModel
 
         public string FirstName
         {
-            get => newClientFirstName;
+            get => firstName;
             set
             {
-                newClientFirstName = value;
+                firstName = value;
 
-                ValidateInput(newClientFirstName, nameof(FirstName));  
-
+                ValidateInput(firstName, nameof(FirstName));
                 OnPropertyChanged(nameof(FirstName));
             }
         }
 
         public string LastName
         {
-            get => newClientLastName;
+            get => lastName;
             set
             {
-                newClientLastName = value;
+                lastName = value;
 
-                ValidateInput(newClientLastName, nameof(LastName));
+                ValidateInput(lastName, nameof(LastName));
                 OnPropertyChanged(nameof(LastName));
             }
         }
@@ -91,7 +89,6 @@ namespace Presentation.ViewModel
                 selectedViewModel = value;
                 IsClientViewModelSelected = true;
                 OnPropertyChanged(nameof(SelectedViewModel));
-
             }
         }
 
@@ -126,8 +123,8 @@ namespace Presentation.ViewModel
 
         #region PrivateAttributes
 
-        private string newClientFirstName;
-        private string newClientLastName;
+        private string firstName;
+        private string lastName;
 
         private ICommand addCommand;
         private ICommand deleteCommand;
@@ -158,19 +155,11 @@ namespace Presentation.ViewModel
 
         private void DeleteClient()
         {
-            if (ClientHasNoEvents())
-            {
-                service.DeleteClient(SelectedViewModel.Id);
-            }
-            else
-            {
-                ShowPopupWindow("Can't delete a client, since he has registered events");
-            }
-        }
+            string message = service.DeleteClient(SelectedViewModel.Id) 
+                ? "Client was deleted!" : "Can't delete a client, since he has registered events";
 
-        private bool ClientHasNoEvents()
-        {
-            return service.HasNoEvents(SelectedViewModel.Id);
+            ShowPopupWindow(message);
+            OnPropertyChanged(nameof(ClientViewModels));
         }
 
         private bool ClientViewModelIsSelected()
@@ -195,7 +184,6 @@ namespace Presentation.ViewModel
             OnPropertyChanged("ClientViewModels");
         }
 
-
         private void ValidateInput(string field, string propertyName)
         {
             errorValidator.ClearErrors(propertyName);
@@ -207,7 +195,9 @@ namespace Presentation.ViewModel
             else if (field.Length > 20)
             {
                 errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
-            }
+            } 
+
+            // add parsing for chars
         }
 
         #endregion

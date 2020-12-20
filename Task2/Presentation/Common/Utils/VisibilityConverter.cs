@@ -8,11 +8,6 @@ using System.Windows.Data;
 
 namespace Presentation.Common
 {
-    // this is to control the visibility of the object,
-    // so that they are visible if some property in a view model is set to true
-
-    // example in the 
-
     public class VisibilityConverter : IValueConverter
     {
         public const string Invert = "Invert";

@@ -15,11 +15,9 @@ namespace DataTest
         
         private PurchaseEvent GetEvent()
         {
-            int lastClientId = clientRepository.GetAllClients()[
-                clientRepository.GetNumberOfClients() - 1].Id;
+            int lastClientId = clientRepository.GetLastClient().Id;
 
-            int lastProductId = productRepository.GetAllProducts()[
-                productRepository.GetNumberOfProducts() - 1].Id;
+            int lastProductId = productRepository.GetLastProduct().Id;
 
             return new PurchaseEvent()
             {
@@ -52,8 +50,8 @@ namespace DataTest
         [TestMethod]
         public void GetPurchaseEventsByClientId()
         {
-            int lastClientId = clientRepository.GetAllClients()[
-                clientRepository.GetNumberOfClients() - 1].Id;
+
+            int lastClientId = clientRepository.GetLastClient().Id;
 
             List<PurchaseEvent> evs = eventRepository.GetPurchaseEventsByClientId(lastClientId);
 

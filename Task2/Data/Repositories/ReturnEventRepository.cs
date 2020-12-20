@@ -49,7 +49,7 @@ namespace Data.Repositories
             }
         }
 
-        public ReturnEvent GetMostRecentReturnEvent()
+        public ReturnEvent GetMostRecentReturn()
         {
             using (var db = new ShopDataContext())
             {
