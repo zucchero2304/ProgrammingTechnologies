@@ -9,7 +9,7 @@ using Service;
 namespace ServicesTests
 {
     [TestClass]
-    public class ClientServiceTests
+    public class ClientServiceTest
     {
         ClientService service = new ClientService();
 

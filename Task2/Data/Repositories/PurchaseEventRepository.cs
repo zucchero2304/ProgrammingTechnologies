@@ -63,7 +63,7 @@ namespace Data
             }
         }
 
-        public PurchaseEvent GetMostRecent()
+        public PurchaseEvent GetMostRecentPurchase() 
         {
             using (var db = new ShopDataContext())
             {
@@ -71,7 +71,6 @@ namespace Data
             }
         }
 
-        // needed to verify whether the client has actually purchased a product that he tries to return
         public PurchaseEvent GetMostRecentByClientIdAndProductId(int clientId, int productId)
         {
             using (var db = new ShopDataContext())

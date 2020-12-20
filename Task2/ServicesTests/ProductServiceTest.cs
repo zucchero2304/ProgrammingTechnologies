@@ -34,7 +34,7 @@ namespace ServicesTests
         [TestMethod]
         public void DeleteNonExistingProduct()
         {
-            //Assert.IsFalse(service.DeleteProduct(0));
+            Assert.IsFalse(service.DeleteProduct(0));
         }
 
         [TestMethod]

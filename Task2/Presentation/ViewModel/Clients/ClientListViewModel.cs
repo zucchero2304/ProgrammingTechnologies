@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Common;
@@ -33,7 +34,8 @@ namespace Presentation.ViewModel
 
         private void configureCommands()
         {
-            addCommand = new RelayCommand(e => { AddClient(); }, condition => CanAdd );
+            addCommand = new RelayCommand(e => { AddClient(); },
+                condition => CanAdd);
 
             deleteCommand = new RelayCommand(e => { DeleteClient(); },
                 condition => ClientViewModelIsSelected());
@@ -152,7 +154,6 @@ namespace Presentation.ViewModel
 
             service.AddClient(newClient);
             FetchClients();
-
         }
 
         private void DeleteClient()

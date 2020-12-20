@@ -92,7 +92,7 @@ namespace DataTest
         {
             List<PurchaseEvent> evs = eventRepository.GetAllPurchaseEvents();
 
-            PurchaseEvent recent = eventRepository.GetMostRecent();
+            PurchaseEvent recent = eventRepository.GetMostRecentPurchase();
             
             Assert.AreEqual(evs.Last().Id, recent.Id);
         }

@@ -1,7 +1,5 @@
 ﻿using Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Data.Repositories;
 
 namespace Service
@@ -13,15 +11,23 @@ namespace Service
         private ReturnEventRepository returnRepository = new ReturnEventRepository();
         private PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
 
-        public void AddReturnEvent(ReturnEvent ev)
+        public bool AddReturnEvent(ReturnEvent ev)
         {
+            if (ev == null || InvalidEventData(ev))
+            {
+                return false;
+            }
+
             PurchaseEvent recentPurchase = GetClientRecentPurchaseOfSuchProduct(ev);
 
-            if (recentPurchase != null)
+            if (recentPurchase == null)
             {
-                returnRepository.AddReturnEvent(ev);
-                purchaseRepository.DeletePurchaseEvent(recentPurchase.Id);
+                return false;
             }
+
+            returnRepository.AddReturnEvent(ev);
+            purchaseRepository.DeletePurchaseEvent(recentPurchase.Id);
+            return true;
         }
 
         public List<ReturnEvent> GetAllReturns()
@@ -42,6 +48,21 @@ namespace Service
         private PurchaseEvent GetClientRecentPurchaseOfSuchProduct(ReturnEvent ev)
         {
             return purchaseRepository.GetMostRecentByClientIdAndProductId(ev.ClientId, ev.ProductId);
+        }
+
+        private bool InvalidEventData(ReturnEvent ev)
+        {
+            return !ClientExists(ev.ClientId) || !ProductExists(ev.ProductId);
+        }
+
+        private bool ClientExists(int id)
+        {
+            return clientRepository.GetClientById(id) != null;
+        }
+
+        private bool ProductExists(int id)
+        {
+            return productRepository.GetProductById(id) != null;
         }
     }
 }

@@ -13,7 +13,6 @@ namespace DataTest
         ClientRepository repository = new ClientRepository();
         PurchaseEventRepository eventRepository = new PurchaseEventRepository();
 
-
         [TestMethod]
         public void AddClient()
         {
@@ -33,14 +32,18 @@ namespace DataTest
         }
 
         [TestMethod]
-        public void RowNumberIsIncremented()
+        public void FetchLastClient()
         {
-            int initialCount = repository.GetAllClients().Count;
-            Console.WriteLine(initialCount);
+            Client client = new Client()
+            {
+                FirstName = "John",
+                LastName = "Smith"
+            };
 
-            AddClient();
+            repository.AddClient(client);
 
-            Assert.AreEqual(initialCount, repository.GetAllClients().Count - 1);
+            Assert.AreEqual(repository.GetLastClient().FirstName, client.FirstName);
+            Assert.AreEqual(repository.GetLastClient().LastName, client.LastName);
         }
 
         [TestMethod]

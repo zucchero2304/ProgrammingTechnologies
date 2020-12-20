@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{B7F5BE58-A86B-4B16-94CB-AEAA060C8D80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{F5AE4C25-51BB-4103-A074-192E26892F4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServicesTests\ServiceTest.csproj", "{F5AE4C25-51BB-4103-A074-192E26892F4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "PresentationTest\GUITest.csproj", "{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelTest", "PresentationTest\ViewModelTest.csproj", "{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2D62C824-3C08-4A7D-990C-E356CF472C7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7F5BE58-A86B-4B16-94CB-AEAA060C8D80} = {2D62C824-3C08-4A7D-990C-E356CF472C7E}
+		{F5AE4C25-51BB-4103-A074-192E26892F4B} = {2D62C824-3C08-4A7D-990C-E356CF472C7E}
+		{AB9205F9-7EB0-44B2-B4FC-27E5E5874B2A} = {2D62C824-3C08-4A7D-990C-E356CF472C7E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {483211E8-4705-4D16-A61B-CB3E8CA0C740}

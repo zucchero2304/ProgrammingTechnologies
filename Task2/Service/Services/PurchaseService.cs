@@ -11,13 +11,28 @@ namespace Service
         private ClientRepository clientRepository = new ClientRepository();
         private ProductRepository productRepository = new ProductRepository();
 
-        public void AddPurchaseEvent(PurchaseEvent ev)
+        public bool AddPurchaseEvent(PurchaseEvent ev)
         {
-            if (ClientExists(ev.ClientId) && ProductExists(ev.ProductId) && !PurchaseExists(ev.Id))
+            if (ev == null || InvalidEventData(ev))
             {
-                purchaseRepository.AddPurchaseEvent(ev);
+                return false;
             }
+
+            purchaseRepository.AddPurchaseEvent(ev);
+            return true;
         }
+
+        public bool DeletePurchaseEvent(int id)
+        {
+            if (ProductExists(id))
+            {
+                purchaseRepository.DeletePurchaseEvent(id);
+                return true;
+            }
+
+            return false;
+        }
+
         public List<PurchaseEvent> GetAllPurchases()
         {
             return purchaseRepository.GetAllPurchaseEvents();
@@ -38,9 +53,19 @@ namespace Service
             return purchaseRepository.GetPurchaseEventsByProductId(id);
         }
 
+        public PurchaseEvent GetMostRecentPurchase()
+        {
+            return purchaseRepository.GetMostRecentPurchase();
+        }
+
         public PurchaseEvent GetLastClientPurchaseOfProduct(int clientId, int productId)
         {
             return purchaseRepository.GetMostRecentByClientIdAndProductId(clientId, productId);
+        }
+
+        private bool InvalidEventData(PurchaseEvent ev)
+        {
+            return PurchaseExists(ev.Id) || !ClientExists(ev.ClientId) || !ProductExists(ev.ProductId);
         }
 
         private bool ClientExists(int id)

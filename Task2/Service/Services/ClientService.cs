@@ -8,8 +8,9 @@ namespace Service
     public class ClientService
     {
         ClientRepository clientRepository = new ClientRepository();
-        PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
         ReturnEventRepository returnRepository = new ReturnEventRepository();
+        PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
+
 
         public List<ClientModel> GetAllClients()
         {
@@ -35,7 +36,9 @@ namespace Service
 
         public ClientModel GetLastlyAddedClient()
         {
-            return MapClientDetails(clientRepository.GetLastClient());
+            Client client = clientRepository.GetLastClient();
+
+            return client == null ? null : MapClientDetails(client);
         }
 
         public bool AddClient(ClientModel model)
@@ -44,6 +47,7 @@ namespace Service
             {
                 return false;
             }
+
             clientRepository.AddClient(MapModelDetails(model));
             return true;
         }

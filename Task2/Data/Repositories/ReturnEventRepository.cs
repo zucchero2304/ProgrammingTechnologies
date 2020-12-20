@@ -16,7 +16,7 @@ namespace Data.Repositories
             }
         }
 
-        public ReturnEvent GetReturnEventsById(int id)
+        public ReturnEvent GetReturnEventById(int id)
         {
             using (var db = new ShopDataContext())
             {
