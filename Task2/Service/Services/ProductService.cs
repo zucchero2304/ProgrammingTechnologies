@@ -108,9 +108,15 @@ namespace Service
             return false;
         }
 
-        public void UpdateSelectedProduct(string name)
+        public bool UpdateSelectedProduct(ProductModel model)
         {
-            repository.UpdateProduct(MapModelDetails(GetProductByName(name)));
+            if (model == null || !ProductExists(model._id))
+            {
+                return false;
+            }
+
+            repository.UpdateProduct(MapModelDetails(model));
+            return true;
         }
 
         public List<ProductCategory> GetAllCategories()
