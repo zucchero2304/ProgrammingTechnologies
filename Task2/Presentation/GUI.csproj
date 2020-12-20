@@ -78,6 +78,8 @@
     <Compile Include="ViewModel\Clients\ClientItemViewModel.cs" />
     <Compile Include="ViewModel\Clients\ClientListViewModel.cs" />
     <Compile Include="Common\IWindow.cs" />
+    <Compile Include="ViewModel\Events\EventItemViewModel.cs" />
+    <Compile Include="ViewModel\Events\EventListViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductItemViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductListViewModel.cs" />
@@ -86,6 +88,12 @@
     </Compile>
     <Compile Include="View\Clients\ClientListView.xaml.cs">
       <DependentUpon>ClientListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Events\EventItemView.xaml.cs">
+      <DependentUpon>EventItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Events\EventListView.xaml.cs">
+      <DependentUpon>EventListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -113,6 +121,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Clients\ClientListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Events\EventItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Events\EventListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,6 +172,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{C659DA3F-1745-4ACE-91B0-C77CE74D252E}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{771c3b3c-6cc4-4fb7-8553-a7c80854bc4f}</Project>
       <Name>Service</Name>
@@ -173,8 +193,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

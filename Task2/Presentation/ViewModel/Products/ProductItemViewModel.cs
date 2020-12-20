@@ -7,10 +7,13 @@ using Service;
 using System.Windows.Input;
 using Presentation.Command;
 using Presentation.Model;
+using System.Collections;
+using Presentation.Common;
+using System.ComponentModel;
 
 namespace Presentation.ViewModel
 {
-    public class ProductItemViewModel : ViewModelBase
+    public class ProductItemViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
         #region InitialSetup
@@ -45,7 +48,7 @@ namespace Presentation.ViewModel
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                OnPropertyChanged(nameof(Id));
             }
         }
 
@@ -55,7 +58,8 @@ namespace Presentation.ViewModel
             set
             {
                 productName = value;
-                OnPropertyChanged("ProductName");
+                ValidateStringInput(productName, nameof(ProductName));
+                OnPropertyChanged(nameof(ProductName));
             }
         }
         public double Price
@@ -64,7 +68,8 @@ namespace Presentation.ViewModel
             set
             {
                 price = value;
-                OnPropertyChanged("Price");
+                ValidatePriceInput(price, nameof(Price));
+                OnPropertyChanged(nameof(Price));
             }
         }
 
@@ -74,7 +79,7 @@ namespace Presentation.ViewModel
             set
             {
                 category = value;
-                OnPropertyChanged("Category");
+                OnPropertyChanged(nameof(category));
             }
         }
 
@@ -82,6 +87,8 @@ namespace Presentation.ViewModel
         {
             get => updateCommand;
         }
+
+        public bool CanUpdate => !HasErrors;
 
         #endregion
 
@@ -94,7 +101,7 @@ namespace Presentation.ViewModel
         private string category;
 
         private ProductService service;
-
+        private ErrorValidator errorValidator = new ErrorValidator();
         private ICommand updateCommand;
 
         #endregion
@@ -104,10 +111,66 @@ namespace Presentation.ViewModel
 
         private void UpdateProduct()
         {
-            service.UpdateSelectedProduct(this.productName);
-            //doesn't work yet
+            service.UpdateSelectedProduct(
+                new ProductModel()
+                {
+                    _id = Id,
+                    _productName = ProductName,
+                    _price = Price,
+                    _category = Category
+                });
+        }
+
+
+        private void ValidateStringInput(string field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} cannot be empty!");
+            }
+            else if (field.Length > 20)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
+            }
+        }
+
+        private void ValidatePriceInput(double field, string propertyName)
+        {
+            errorValidator.ClearErrors(propertyName);
+
+            if (field <= 0)
+            {
+                errorValidator.AddError(propertyName, $"{propertyName} has to be more than zero. It's a shop, not a charity!");
+            }
+            else if (field.ToString().Length > 10)
+            {
+                errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 10!");
+            }
         }
 
         #endregion
+
+
+        #region Validation
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanUpdate));
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errorValidator.GetErrors(propertyName);
+        }
+
+        public bool HasErrors => errorValidator.HasErrors;
     }
+
+    #endregion
 }
+

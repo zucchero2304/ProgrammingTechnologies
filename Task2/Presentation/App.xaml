@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Presentation"
              xmlns:viewModel="clr-namespace:Presentation.ViewModel"
              xmlns:view="clr-namespace:Presentation.View"
-             xmlns:products="clr-namespace:Presentation.View.Products"
+             xmlns:products="clr-namespace:Presentation.View"
              StartupUri="/View/MainView.xaml">
     <Application.Resources>
 

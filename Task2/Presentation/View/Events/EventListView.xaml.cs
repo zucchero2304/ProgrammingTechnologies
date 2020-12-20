@@ -14,21 +14,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation.View
+namespace Presentation.View.Events
 {
     /// <summary>
-    /// Interaction logic for ProductListView.xaml
+    /// Interaction logic for EventListView.xaml
     /// </summary>
-    public partial class ProductListView : UserControl
+    public partial class EventListView : UserControl
     {
-        public ProductListView()
+        public EventListView()
         {
             InitializeComponent();
 
-            ProductListViewModel _vm = (ProductListViewModel)DataContext;
+            EventListViewModel _vm = (EventListViewModel)DataContext;
 
-            _vm.MessageBoxShowDelegate = text => MessageBox.Show(
-                text, "Error", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
