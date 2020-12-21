@@ -23,10 +23,10 @@ namespace Presentation.ViewModel
 
             service = new ClientService();
 
-            configureCommands();
+            ConfigureCommands();
         }
 
-        private void configureCommands()
+        private void ConfigureCommands()
         {
             updateCommand = new RelayCommand(e => {UpdateClient();}, c => CanUpdate);
         }

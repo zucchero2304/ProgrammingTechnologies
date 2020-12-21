@@ -77,7 +77,6 @@
     <Compile Include="Common\Utils\VisibilityConverter.cs" />
     <Compile Include="ViewModel\Clients\ClientItemViewModel.cs" />
     <Compile Include="ViewModel\Clients\ClientListViewModel.cs" />
-    <Compile Include="Common\IWindow.cs" />
     <Compile Include="ViewModel\Events\EventListViewModel.cs" />
     <Compile Include="ViewModel\Events\PurchaseViewModel.cs" />
     <Compile Include="ViewModel\Events\ReturnViewModel.cs" />

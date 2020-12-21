@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Service;
-using System.Windows.Input;
-using Presentation.Command;
-using Presentation.Model;
-using System.Collections;
-using Presentation.Common;
-using System.ComponentModel;
+﻿using Presentation.Model;
 using Data;
 
 namespace Presentation.ViewModel
@@ -86,7 +75,6 @@ namespace Presentation.ViewModel
         private string date;
 
         #endregion
-    
 
     }
 }

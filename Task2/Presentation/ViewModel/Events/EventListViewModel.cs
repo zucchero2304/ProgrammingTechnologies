@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Presentation.Model;
 using Service;
@@ -11,7 +7,6 @@ using Presentation.Common;
 using System.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
-using Presentation.ViewModel;
 using Data;
 
 namespace Presentation.ViewModel
@@ -21,26 +16,23 @@ namespace Presentation.ViewModel
         #region InitialSetup
         public EventListViewModel()
         {
-            init();
-            configureCommands();
+            Init();
+            ConfigureCommands();
         }
 
-        private void init()
+        private void Init()
         {
             purchaseService = new PurchaseService();
             returnService = new ReturnService();
 
-
             purchaseViewModels = new ObservableCollection<PurchaseViewModel>();
             returnViewModels = new ObservableCollection<ReturnViewModel>();
 
-
             FetchPurchases();
             FetchReturns();
-
         }
 
-        private void configureCommands()
+        private void ConfigureCommands()
         {
             purchaseCommand = new RelayCommand(e => { AddPurchaseEvent(); },
                 c => ProperInputs());
@@ -50,6 +42,7 @@ namespace Presentation.ViewModel
         }
 
         #endregion
+
 
         #region API
 

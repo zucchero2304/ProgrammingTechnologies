@@ -13,14 +13,6 @@ namespace Data
             }
         }
 
-        public int GetNumberOfProducts()
-        {
-            using (var db = new ShopDataContext())
-            {
-                return db.Products.Select(product => product).ToList().Count;
-            }
-        }
-
         public Product GetProductById(int id) 
         {
             using (var db = new ShopDataContext())

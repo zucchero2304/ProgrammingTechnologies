@@ -9,11 +9,9 @@ namespace ServicesTests
     [TestClass]
     public class PurchaseEventTest 
     {
-        private PurchaseService purchaseService = new PurchaseService();
-        private ReturnService returnService = new ReturnService();
-
         private ClientService clientService = new ClientService();
         private ProductService productService = new ProductService();
+        private PurchaseService purchaseService = new PurchaseService();
 
         [TestMethod]
         public void AddPurchase()

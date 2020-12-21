@@ -11,7 +11,7 @@ namespace PresentationTest
 {
     [TestClass]
     public class ProductItemViewModelTest
-    {
+    { 
         private ProductItemViewModel productVM;
         private bool canExecute;
 

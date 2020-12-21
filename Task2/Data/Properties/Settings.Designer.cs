@@ -26,7 +26,7 @@ namespace Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=REMEKHP\\MSSQLSERVER01;Initial Catalog=shop;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-HOFI07H2;Initial Catalog=shop;Integrated Security=True")]
         public string shopConnectionString {
             get {
                 return ((string)(this["shopConnectionString"]));

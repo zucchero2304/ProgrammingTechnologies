@@ -81,7 +81,6 @@
             <ComboBoxItem>Furniture</ComboBoxItem>
             <ComboBoxItem>Game</ComboBoxItem>
             <ComboBoxItem>Miscellaneous</ComboBoxItem>
-            <!--I guess categories shouldn't be hardcoded-->
         </ComboBox>
 
         <Button Grid.Row="3"

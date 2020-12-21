@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Service;
 using System.Windows.Input;
 using Presentation.Command;
@@ -29,10 +25,10 @@ namespace Presentation.ViewModel
 
             service = new ProductService();
 
-            configureCommands();
+            ConfigureCommands();
         }
 
-        private void configureCommands()
+        private void ConfigureCommands()
         {
             updateCommand = new RelayCommand(e => { UpdateProduct();}, c => CanUpdate);
         }

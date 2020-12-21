@@ -18,11 +18,11 @@ namespace Presentation.ViewModel
         #region InitialSetup
         public ClientListViewModel()
         {
-            init();
-            configureCommands();
+            Init();
+            ConfigureCommands();
         }
 
-        private void init()
+        private void Init()
         {
             service = new ClientService();
 
@@ -32,7 +32,7 @@ namespace Presentation.ViewModel
             FetchClients();
         }
 
-        private void configureCommands()
+        private void ConfigureCommands()
         {
             addCommand = new RelayCommand(e => { AddClient(); },
                 condition => CanAdd);
@@ -182,7 +182,7 @@ namespace Presentation.ViewModel
                 clientViewModels.Add(new ClientItemViewModel(c));
             }
 
-            OnPropertyChanged("ClientViewModels");
+            OnPropertyChanged(nameof(ClientViewModels));
         }
 
         private void ValidateInput(string field, string propertyName)
@@ -196,9 +196,7 @@ namespace Presentation.ViewModel
             else if (field.Length > 20)
             {
                 errorValidator.AddError(propertyName, $"Maximum length of {propertyName} is 20!");
-            } 
-
-            // add parsing for chars
+            }
         }
 
         #endregion

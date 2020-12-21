@@ -76,7 +76,6 @@ namespace DataTest
             Assert.AreEqual(updatedProduct.Price,randomPrice);
         }
 
-        // something is wrong with this method
         [TestMethod]
         public void GetProductsByCategory()
         {

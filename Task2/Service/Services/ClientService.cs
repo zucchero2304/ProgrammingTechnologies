@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Data;
 using Data.Repositories;
 
@@ -10,7 +9,6 @@ namespace Service
         ClientRepository clientRepository = new ClientRepository();
         ReturnEventRepository returnRepository = new ReturnEventRepository();
         PurchaseEventRepository purchaseRepository = new PurchaseEventRepository();
-
 
         public List<ClientModel> GetAllClients()
         {

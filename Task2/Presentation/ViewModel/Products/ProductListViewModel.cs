@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Presentation.Model;
 using Service;
@@ -19,11 +15,11 @@ namespace Presentation.ViewModel
         #region InitialSetup
         public ProductListViewModel()
         {
-            init();
-            configureCommands();
+            Init();
+            ConfigureCommands();
         }
 
-        private void init()
+        private void Init()
         {
             service = new ProductService();
 
@@ -32,7 +28,7 @@ namespace Presentation.ViewModel
             FetchProducts();
         }
 
-        private void configureCommands()
+        private void ConfigureCommands()
         {
             addCommand = new RelayCommand(e => { AddProduct(); },
                 c => NonEmptyInputs());
@@ -42,6 +38,7 @@ namespace Presentation.ViewModel
         }
 
         #endregion
+
 
         #region API
 
@@ -144,7 +141,7 @@ namespace Presentation.ViewModel
                 productViewModels.Add(new ProductItemViewModel(c));
             }
 
-            OnPropertyChanged("ProductViewModels");
+            OnPropertyChanged(nameof(ProductViewModels));
         }
 
         private void AddProduct()
@@ -163,9 +160,9 @@ namespace Presentation.ViewModel
 
         private void DeleteProduct()
         {
-            if (ProductHasNoPurchases())
+            if (service.DeleteProduct(SelectedViewModel.Id))
             {
-                service.DeleteProduct(SelectedViewModel.Id);
+                ShowPopupWindow("Successfully deleted a product");
                 FetchProducts();
             }
             else
@@ -187,7 +184,6 @@ namespace Presentation.ViewModel
         private bool NonEmptyInputs()
         {
             return !string.IsNullOrEmpty(ProductName) && Price > 0 && !string.IsNullOrEmpty(Category);
-            //when price is provided and then deleted, it's still possible to add products - to be fixed
         }
 
         private void ShowPopupWindow(string message)

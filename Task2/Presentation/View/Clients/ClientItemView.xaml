@@ -51,11 +51,11 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row ="0" Content="Client profile" FontSize="30px" FontWeight="Medium" HorizontalAlignment="Center"></Label>
+        <Label Grid.Row ="0" Content="Client profile" FontSize="24px" FontWeight="Medium" HorizontalAlignment="Center"></Label>
         <Label Grid.Row ="1" Content="Details" FontSize="20px" FontWeight="Medium" HorizontalAlignment="Center"></Label>
 
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
+        <Grid Grid.Row="2" >
+            <Grid.RowDefinitions >
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
@@ -66,13 +66,13 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Id:" FontSize="20"></Label>
-            <Label Grid.Row="1" Grid.Column="0" Content="Name:" FontSize="20"></Label>
-            <Label Grid.Row="2" Grid.Column="0" Content="Surname:" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Content="Id:" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Content="Name:" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Content="Surname:" FontSize="20"></Label>
 
-            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Id}" FontSize="20"></Label>
-            <Label Grid.Row="1" Grid.Column="1" Content="{Binding FirstName}" FontSize="20"></Label>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding LastName}" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Content="{Binding Id}" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Content="{Binding FirstName}" FontSize="20"></Label>
+            <Label HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Content="{Binding LastName}" FontSize="20"></Label>
         </Grid>
 
         <Label Grid.Row ="3" Content="Update" FontSize="20px" FontWeight="Medium" HorizontalAlignment="Center"></Label>
