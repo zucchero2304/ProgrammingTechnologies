@@ -55,11 +55,18 @@
     <Compile Include="ProductItemViewModelTest.cs" />
     <Compile Include="ProductListViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EventListViewModelTest.cs" />
+    <Compile Include="PurchaseViewModelTest.cs" />
+    <Compile Include="ReturnViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{c659da3f-1745-4ace-91b0-c77ce74d252e}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Presentation\GUI.csproj">
       <Project>{a73c3ddc-a49f-40af-bb7a-32d43614ca1d}</Project>
       <Name>GUI</Name>
